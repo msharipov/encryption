@@ -79,9 +79,10 @@ uint8_t DES_get_expanded_word(uint64_t plain, uint8_t n) {
     return (uint8_t)mask_product;
 }
 
-uint8_t DES_substitute(uint8_t word) {
-    size_t row = 2*(word & 1) + ((word & 0b100000) >> 5);
-    return DES_S_BOXES;
+uint8_t DES_substitute(uint8_t word, uint8_t n) {
+    size_t row = (word & 1) + ((word & 0b100000) >> 4);
+    size_t col = (word & 0b011110) >> 1;
+    return DES_S_BOXES[n][row][col];
 }
 
 #endif

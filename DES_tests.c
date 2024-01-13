@@ -71,11 +71,55 @@ _Bool test_expansion(void) {
     return fail;
 }
 
+_Bool test_s_boxes(void) {
+
+    _Bool fail = 0;
+    uint8_t out, exp;
+
+    out = DES_substitute(0b000000, 0);
+    exp = 14;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed S-box test 0:\n");
+        printf("Expected %x but got %x\n", exp, out);
+    }
+
+    out = DES_substitute(0b101010, 3);
+    exp = 11;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed S-box test 1:\n");
+        printf("Expected %x but got %x\n", exp, out);
+    }
+
+    out = DES_substitute(0b111111, 2);
+    exp = 12;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed S-box test 2:\n");
+        printf("Expected %x but got %x\n", exp, out);
+    }
+
+    out = DES_substitute(0b000111, 6);
+    exp = 7;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed S-box test 3:\n");
+        printf("Expected %x but got %x\n", exp, out);
+    }
+
+    return fail;
+}
+
 int main(void) {
 
     _Bool fail = 0;
 
     if (test_expansion()) {
+        fail = 1;
+    }
+
+    if (test_s_boxes()) {
         fail = 1;
     }
 
