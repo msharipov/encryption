@@ -59,6 +59,13 @@ const uint64_t DES_EXPANSION_MASKS[8] = {
     0b011111ULL << 27
 };
 
+const size_t DES_P_BOX[32] = {
+    15, 6,  19, 20, 28, 11, 27, 16,
+    0,  14, 22, 25, 4,  17, 30, 9,
+    1,  7,  23, 13, 31, 26, 2,  8,
+    18, 12, 29, 5,  21, 10, 3, 24    
+};
+
 // Expands 32-bit plaintext to 48 bits and returns the nth 6-bit word
 // 6-bit words are stored in the lower bits of uint8_t
 uint8_t DES_get_expanded_word(uint64_t plain, uint8_t n) {
@@ -80,9 +87,35 @@ uint8_t DES_get_expanded_word(uint64_t plain, uint8_t n) {
 }
 
 uint8_t DES_substitute(uint8_t word, uint8_t n) {
+
     size_t row = (word & 1) + ((word & 0b100000) >> 4);
     size_t col = (word & 0b011110) >> 1;
+
     return DES_S_BOXES[n][row][col];
+}
+
+uint64_t DES_permute(uint8_t words[]) {
+
+    uint64_t input = 0,
+             output = 0;
+
+    // Combines 4-bit words back into 32 bits
+    for (int i = 0; i < 8; i++) {
+        input += (uint64_t)words[i] << (4*i);
+    }
+
+    // Permutes bits according to the P-box
+    for (size_t i = 0; i < 32; i++) {
+        size_t shift = DES_P_BOX[i];
+        uint64_t new_bit = input & 1ULL << shift;
+        if (shift >= i) {
+            output += new_bit >> (shift - i);
+        } else {
+            output += new_bit << (i - shift);
+        }
+    }
+
+    return output;
 }
 
 #endif
