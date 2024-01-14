@@ -121,7 +121,7 @@ uint64_t DES_permute(uint8_t words[]) {
 
     // Combines 4-bit words back into 32 bits
     for (int i = 0; i < 8; i++) {
-        input += (uint64_t)words[i] << (4*i);
+        input += (uint64_t)words[i] << 4*(7 - i);
     }
 
     const uint64_t ZEROTH_BIT = 1ULL << 31;
