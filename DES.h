@@ -78,7 +78,7 @@ const size_t DES_KEY_PERM_1[56] = {
 };
 
 const size_t DES_KEY_PERM_2[48] = {
-    3,  16, 10, 23, 0,  4,  2,  27,
+    13, 16, 10, 23, 0,  4,  2,  27,
     14, 5,  20, 9,  22, 18, 11, 3,
     25, 7,  15, 6,  26, 19, 12, 1,
     40, 51, 30, 36, 46, 54, 29, 39,
@@ -175,15 +175,14 @@ uint64_t DES_key_contraction(uint64_t key56) {
     return round_key;
 }
 
+// Separately left-shifts each half of the key once
 uint64_t DES_key_shift(uint64_t key56) {
 
     uint64_t output = 0;
-    const uint64_t LOWER_MASK = 0xfffffffULL,
-                   UPPER_MASK = LOWER_MASK << 28;
-    output += key56 << 1 & LOWER_MASK;
-    output += key56 >> 27 & 1ULL;
-    output += key56 << 1 & UPPER_MASK;
-    output += key56 >> 27 & 1ULL << 28;
+    const uint64_t PRE_SHIFT_MASK = 0x7ffffff7ffffffULL;
+    output += (key56 & PRE_SHIFT_MASK) << 1;
+    output += (key56 & 1ULL << 27) ? 1ULL : 0;
+    output += (key56 & 1ULL << 55) ? (1ULL << 28) : 0;
 
     return output;
 }
@@ -194,6 +193,12 @@ void DES_generate_round_keys(uint64_t rnd_keys[], uint64_t key64) {
 
     for (int round = 0; round < 16; round++) {
 
+        key = DES_key_shift(key);
+        if (round > 1 && round != 8 && round != 15) {
+            key = DES_key_shift(key);
+        }
+
+        rnd_keys[round] = DES_key_contraction(key);
     }
 }
 

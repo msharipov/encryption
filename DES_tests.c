@@ -147,7 +147,23 @@ _Bool test_key_perm_2(void) {
              exp = 0x9153e54319bdULL;
     if (out != exp) {
         fail = 1;
-        printf("Failed key contraction test:\n");
+        printf("Failed key contraction test 0:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
+    out = DES_key_contraction(0xffffffffffffffULL);
+    exp = 0xffffffffffffULL;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed key contraction test 1:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
+    out = DES_key_contraction(0);
+    exp = 0;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed key contraction test 2:\n");
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
@@ -168,6 +184,40 @@ _Bool test_key_shift(void) {
     return fail;
 }
 
+_Bool test_key_generation(void) {
+    
+    _Bool fail = 0;
+    uint64_t out[16] = {0},
+             exp[16] = {
+                0b101100001001001011001010110101010000001001010100ULL,
+                0b101100000001101011010010110100011000001001010100ULL,
+                0b001101000111101001010000010100011010011010001100ULL,
+                0b000001100111010101010100001110000011010010001101ULL,
+                0b010011100100010101010101001010100111000010100111ULL,
+                0b010011111100000100101001001001100110100110100011ULL,
+                0b100010111000000110101011101001100000100101010011ULL,
+                0b101110010000101010001011110001111000001101010010ULL,
+                0b001110010001101010001010110001011000001101001010ULL,
+                0b001100000011100011001100010101001001011001001100ULL,
+                0b000100000110110001010100010110001001010011101100ULL,
+                0b010001000110110100110100000010001111110010101001ULL,
+                0b110001101010010100100101001010100111110000110001ULL,
+                0b110010111000011000100011101010110100100100110010ULL,
+                0b111010011001001010101010100001010100101100010010ULL,
+                0b101000011001001010101010100101010000101101010000ULL
+             };
+
+    DES_generate_round_keys(out, 0x5555555555555555ULL);
+
+    for (int r = 0; r < 15; r++) {
+        if (out[r] != exp[r]) {
+            fail = 1;
+            printf("Failed round key generation test at step %i:\n", r);
+            printf("Expected %lx but got %lx\n", exp[r], out[r]);
+        }
+    }
+    return fail;
+}
 
 int main(void) {
 
@@ -179,9 +229,10 @@ int main(void) {
     fail += test_key_perm_1();
     fail += test_key_perm_2();
     fail += test_key_shift();
+    fail += test_key_generation();
 
     if (!fail) {
-        printf("All tests passed successfully!\n");
+        printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
     }
 
     exit(EXIT_SUCCESS);
