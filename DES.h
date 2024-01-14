@@ -187,6 +187,7 @@ uint64_t DES_key_shift(uint64_t key56) {
     return output;
 }
 
+// Generates 16 round keys, starting with initial 64-bit key
 void DES_generate_round_keys(uint64_t rnd_keys[], uint64_t key64) {
 
     uint64_t key = DES_permute_initial_key(key64);
