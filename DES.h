@@ -139,7 +139,7 @@ uint64_t DES_permute(uint8_t words[]) {
 }
 
 // Extracts 56 bits from the initial 64-bit key
-uint64_t DES_permute_initial_key (uint64_t key64) {
+uint64_t DES_permute_initial_key(uint64_t key64) {
     
     uint64_t key56 = 0;
 
@@ -158,7 +158,7 @@ uint64_t DES_permute_initial_key (uint64_t key64) {
 }
 
 // Shrinks the 56-bit key to produce the first round key
-uint64_t DES_key_contraction (uint64_t key56) {
+uint64_t DES_key_contraction(uint64_t key56) {
     
     uint64_t round_key = 0;
 
@@ -173,6 +173,28 @@ uint64_t DES_key_contraction (uint64_t key56) {
         }
     }
     return round_key;
+}
+
+uint64_t DES_key_shift(uint64_t key56) {
+
+    uint64_t output = 0;
+    const uint64_t LOWER_MASK = 0xfffffffULL,
+                   UPPER_MASK = LOWER_MASK << 28;
+    output += key56 << 1 & LOWER_MASK;
+    output += key56 >> 27 & 1ULL;
+    output += key56 << 1 & UPPER_MASK;
+    output += key56 >> 27 & 1ULL << 28;
+
+    return output;
+}
+
+void DES_generate_round_keys(uint64_t rnd_keys[], uint64_t key64) {
+
+    uint64_t key = DES_permute_initial_key(key64);
+
+    for (int round = 0; round < 16; round++) {
+
+    }
 }
 
 #endif
