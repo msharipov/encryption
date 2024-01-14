@@ -49,14 +49,14 @@ const uint8_t DES_S_BOXES[8][4][16] = {
 };
 
 const uint64_t DES_EXPANSION_MASKS[8] = {
-    0b011111ULL,
-    0b111111ULL << 3,
-    0b111111ULL << 7,
-    0b111111ULL << 11,
-    0b111111ULL << 15,
-    0b111111ULL << 19,
+    0b011111ULL << 27,
     0b111111ULL << 23,
-    0b011111ULL << 27
+    0b111111ULL << 19,
+    0b111111ULL << 15,
+    0b111111ULL << 11,
+    0b111111ULL << 7,
+    0b111111ULL << 3,
+    0b011111ULL,
 };
 
 const size_t DES_P_BOX[32] = {
@@ -94,13 +94,13 @@ uint8_t DES_get_expanded_word(uint64_t plain, uint8_t n) {
 
     // Uses bit masks to pull out the desired bits for each word
     if (n == 0) {
-        mask_product <<= 1;
-        mask_product += (plain >> 31) & 1;
-    } else if (n < 7) {
-        mask_product >>= 4*n - 1;
-    } else {
         mask_product >>= 27;
         mask_product += (plain & 1) << 5;
+    } else if (n < 7) {
+        mask_product >>= 4*(7 - n) - 1;
+    } else {
+        mask_product <<= 1;
+        mask_product += (plain >> 31) & 1;
     }
 
     return (uint8_t)mask_product;
@@ -201,6 +201,19 @@ void DES_generate_round_keys(uint64_t rnd_keys[], uint64_t key64) {
 
         rnd_keys[round] = DES_key_contraction(key);
     }
+}
+
+// Feistel function
+uint64_t DES_Feistel(uint64_t RE, uint64_t round_key) {
+    
+    uint8_t words[8] = {0};
+    for (int i = 0; i < 8; i++) {
+        uint8_t word = DES_get_expanded_word(RE, i);
+        word ^= (round_key >> (i * 6) & 0x00111111);
+        word = DES_substitute(word, i);
+    }
+
+    return DES_permute(words);
 }
 
 #endif

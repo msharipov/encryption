@@ -3,69 +3,80 @@
 #include <stdint.h>
 #include "DES.h"
 
-const uint64_t NUMBER64 = 
-//                                v32
-//FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210
-0b0100101101001011010010110100101101001011010010110100101101001011;
+
 
 _Bool test_expansion(void) {
 
     _Bool fail = 0;
+    const uint64_t NUMBER64 = 
+    //                                v32
+    //FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210
+    0b0100101101001011010010110100101101001011010010110100101101001011;
 
-    if (DES_get_expanded_word(NUMBER64, 0)!= 0b010110) {
+    uint8_t out, exp;
+
+    out = DES_get_expanded_word(NUMBER64, 0);
+    exp = 0b101001;
+    if (out != exp) {
         fail = 1;
-        printf("Failed expansion test 0\n");
-        printf("Expected %x but got %x\n", 0b010110, 
-               DES_get_expanded_word(NUMBER64, 0));
+        printf("Failed expansion test 0:\n");
+        printf("Expected %x but got %x\n", exp, out);
     }
 
-    if (DES_get_expanded_word(NUMBER64, 1)!= 0b101001) {
+    out = DES_get_expanded_word(NUMBER64, 1);
+    exp = 0b010110;
+    if (out != exp) {
         fail = 1;
-        printf("Failed expansion test 1\n");
-        printf("Expected %x but got %x\n", 0b101001, 
-               DES_get_expanded_word(NUMBER64, 1));
+        printf("Failed expansion test 1:\n");
+        printf("Expected %x but got %x\n", exp, out);
     }
 
-    if (DES_get_expanded_word(NUMBER64, 2)!= 0b010110) {
+    out = DES_get_expanded_word(NUMBER64, 2);
+    exp = 0b101001;
+    if (out != exp) {
         fail = 1;
-        printf("Failed expansion test 2\n");
-        printf("Expected %x but got %x\n", 0b010110, 
-               DES_get_expanded_word(NUMBER64, 2));
+        printf("Failed expansion test 2:\n");
+        printf("Expected %x but got %x\n", exp, out);
     }
 
-    if (DES_get_expanded_word(NUMBER64, 3)!= 0b101001) {
+    out = DES_get_expanded_word(NUMBER64, 3);
+    exp = 0b010110;
+    if (out != exp) {
         fail = 1;
-        printf("Failed expansion test 3\n");
-        printf("Expected %x but got %x\n", 0b101001, 
-               DES_get_expanded_word(NUMBER64, 3));
+        printf("Failed expansion test 3:\n");
+        printf("Expected %x but got %x\n", exp, out);
     }
 
-    if (DES_get_expanded_word(NUMBER64, 4)!= 0b010110) {
+    out = DES_get_expanded_word(NUMBER64, 4);
+    exp = 0b101001;
+    if (out != exp) {
         fail = 1;
-        printf("Failed expansion test 4\n");
-        printf("Expected %x but got %x\n", 0b010110, 
-               DES_get_expanded_word(NUMBER64, 4));
+        printf("Failed expansion test 4:\n");
+        printf("Expected %x but got %x\n", exp, out);
     }
 
-    if (DES_get_expanded_word(NUMBER64, 5)!= 0b101001) {
+    out = DES_get_expanded_word(NUMBER64, 5);
+    exp = 0b010110;
+    if (out != exp) {
         fail = 1;
-        printf("Failed expansion test 5\n");
-        printf("Expected %x but got %x\n", 0b101001, 
-               DES_get_expanded_word(NUMBER64, 5));
+        printf("Failed expansion test 5:\n");
+        printf("Expected %x but got %x\n", exp, out);
     }
 
-    if (DES_get_expanded_word(NUMBER64, 6)!= 0b010110) {
+    out = DES_get_expanded_word(NUMBER64, 6);
+    exp = 0b101001;
+    if (out != exp) {
         fail = 1;
-        printf("Failed expansion test 6\n");
-        printf("Expected %x but got %x\n", 0b010110, 
-               DES_get_expanded_word(NUMBER64, 6));
+        printf("Failed expansion test 6:\n");
+        printf("Expected %x but got %x\n", exp, out);
     }
 
-    if (DES_get_expanded_word(NUMBER64, 7)!= 0b101001) {
+    out = DES_get_expanded_word(NUMBER64, 7);
+    exp = 0b010110;
+    if (out != exp) {
         fail = 1;
         printf("Failed expansion test 7:\n");
-        printf("Expected %x but got %x\n", 0b101001, 
-               DES_get_expanded_word(NUMBER64, 7));
+        printf("Expected %x but got %x\n", exp, out);
     }
 
     return fail;
