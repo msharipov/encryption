@@ -77,6 +77,15 @@ const size_t DES_KEY_PERM_1[56] = {
     20, 12, 4,  27, 19, 11, 3
 };
 
+const size_t DES_KEY_PERM_2[48] = {
+    3,  16, 10, 23, 0,  4,  2,  27,
+    14, 5,  20, 9,  22, 18, 11, 3,
+    25, 7,  15, 6,  26, 19, 12, 1,
+    40, 51, 30, 36, 46, 54, 29, 39,
+    50, 44, 32, 47, 43, 48, 38, 55,
+    33, 52, 45, 41, 49, 35, 28, 31
+};
+
 // Expands 32-bit plaintext to 48 bits and returns the nth 6-bit word
 // 6-bit words are stored in the lower bits of uint8_t
 uint8_t DES_get_expanded_word(uint64_t plain, uint8_t n) {
@@ -121,9 +130,7 @@ uint64_t DES_permute(uint8_t words[]) {
         
         size_t in_pos = DES_P_BOX[out_pos];
 
-        _Bool new_bit = input & ZEROTH_BIT >> in_pos;
-
-        if (new_bit) {
+        if (input & ZEROTH_BIT >> in_pos) {
             output += ZEROTH_BIT >> out_pos;
         }
     }
@@ -136,19 +143,36 @@ uint64_t DES_permute_initial_key (uint64_t key64) {
     
     uint64_t key56 = 0;
 
-    const uint64_t ZEROTH_BIT = 1ULL << 55;
+    const uint64_t ZEROTH_BIT_IN = 1ULL << 63,
+                   ZEROTH_BIT_OUT = 1ULL << 55;
     for (size_t out_pos = 0; out_pos < 56; out_pos++) {
         
         size_t in_pos = DES_KEY_PERM_1[out_pos];
-
-        _Bool new_bit = key64 & ZEROTH_BIT >> in_pos;
-
-        if (new_bit) {
-            key56 += ZEROTH_BIT >> out_pos;
+        
+        if (key64 & ZEROTH_BIT_IN >> in_pos) {
+            key56 += ZEROTH_BIT_OUT >> out_pos;
         }
     }
 
     return key56;
+}
+
+// Shrinks the 56-bit key to produce the first round key
+uint64_t DES_key_contraction (uint64_t key56) {
+    
+    uint64_t round_key = 0;
+
+    const uint64_t ZEROTH_BIT_IN = 1ULL << 55,
+                   ZEROTH_BIT_OUT = 1ULL << 47;
+    for (size_t out_pos = 0; out_pos < 48; out_pos++) {
+        
+        size_t in_pos = DES_KEY_PERM_2[out_pos];
+
+        if (key56 & ZEROTH_BIT_IN >> in_pos) {
+            round_key += ZEROTH_BIT_OUT >> out_pos;
+        }
+    }
+    return round_key;
 }
 
 #endif

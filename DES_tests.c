@@ -140,6 +140,20 @@ _Bool test_key_perm_1(void) {
     return fail;
 }
 
+_Bool test_key_perm_2(void) {
+
+    _Bool fail = 0;
+    uint64_t out = DES_key_contraction(0x55555555555555ULL),
+             exp = 0x9153e54319bdULL;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed key contraction test:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
+    return fail;
+}
+
 int main(void) {
 
     _Bool fail = 0;
@@ -153,6 +167,14 @@ int main(void) {
     }
 
     if (test_p_box()) {
+        fail = 1;
+    }
+
+    if (test_key_perm_1()) {
+        fail = 1;
+    }
+
+    if (test_key_perm_2()) {
         fail = 1;
     }
 
