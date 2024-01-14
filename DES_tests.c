@@ -126,6 +126,20 @@ _Bool test_p_box(void) {
     return fail;
 }
 
+_Bool test_key_perm_1(void) {
+
+    _Bool fail = 0;
+    uint64_t out = DES_permute_initial_key(0x5555555555555555ULL),
+             exp = 0x00ff00f00ff00fULL;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed initial key permutation test:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
+    return fail;
+}
+
 int main(void) {
 
     _Bool fail = 0;
