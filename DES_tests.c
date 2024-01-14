@@ -116,7 +116,7 @@ _Bool test_p_box(void) {
     _Bool fail = 0;
     uint8_t words[] = {0xa, 0xa, 0xa, 0xa, 0xa, 0xa, 0xa, 0xa};
     uint64_t out = DES_permute(words),
-             exp = 0b01011100000111111010100001100101;
+             exp = 0b01011001111010100000011111000101;
     if (out != exp) {
         fail = 1;
         printf("Failed P-box test:\n");

@@ -63,7 +63,18 @@ const size_t DES_P_BOX[32] = {
     15, 6,  19, 20, 28, 11, 27, 16,
     0,  14, 22, 25, 4,  17, 30, 9,
     1,  7,  23, 13, 31, 26, 2,  8,
-    18, 12, 29, 5,  21, 10, 3, 24    
+    18, 12, 29, 5,  21, 10, 3,  24    
+};
+
+const size_t DES_INIT_PERM[64] = {
+    56, 48, 40, 32, 24, 16, 8,  0,
+    0,  57, 49, 41, 33, 25, 17, 0,
+    9,  1,  58, 50, 42, 34, 26, 0,
+    18, 10, 2,  59, 51, 43, 35, 0,
+    62, 54, 46, 38, 30, 22, 14, 0,
+    6,  61, 53, 45, 37, 29, 21, 0,
+    13, 5,  60, 52, 44, 36, 28, 0,
+    20, 12, 4,  27, 19, 11, 3,  0
 };
 
 // Expands 32-bit plaintext to 48 bits and returns the nth 6-bit word
@@ -104,18 +115,26 @@ uint64_t DES_permute(uint8_t words[]) {
         input += (uint64_t)words[i] << (4*i);
     }
 
+    const uint64_t ZEROTH_BIT = 1ULL << 31;
     // Permutes bits according to the P-box
-    for (size_t i = 0; i < 32; i++) {
-        size_t shift = DES_P_BOX[i];
-        uint64_t new_bit = input & 1ULL << shift;
-        if (shift >= i) {
-            output += new_bit >> (shift - i);
-        } else {
-            output += new_bit << (i - shift);
+    for (size_t out_pos = 0; out_pos < 32; out_pos++) {
+        
+        size_t in_pos = DES_P_BOX[out_pos];
+
+        _Bool new_bit = input & ZEROTH_BIT >> in_pos;
+
+        if (new_bit) {
+            output += ZEROTH_BIT >> out_pos;
         }
     }
 
     return output;
+}
+
+// Extracts 56 bits from the initial 64-bit key
+uint64_t DES_permute_initial_key (uint64_t k) {
+    uint64_t output = 0;
+    return output;  
 }
 
 #endif
