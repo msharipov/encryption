@@ -15,6 +15,14 @@ _Bool test_init_perm(void) {
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
+    out = DES_init_perm(0x5555555555555555ULL);
+    exp = 0xffffffff00000000ULL;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed initial block permutation test 1:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
     return fail;
 }
 
