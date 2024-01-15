@@ -286,7 +286,7 @@ uint64_t DES_init_perm_inv(uint64_t src) {
 }
 
 uint64_t DES_encrypt(uint64_t plain, uint64_t rnd_keys[]) {
-    printf("DEBUG! Encrypting: %016lx\n", plain);
+    //printf("DEBUG! Encrypting: %016lx\n", plain);
     uint64_t permuted = DES_init_perm(plain);
 
     uint64_t cipher = 0,
@@ -300,12 +300,12 @@ uint64_t DES_encrypt(uint64_t plain, uint64_t rnd_keys[]) {
         RE = LE_old ^ DES_Feistel(RE_old, rnd_keys[round]);
         LE_old = LE;
         RE_old = RE;
-        printf("DEBUG! LE:%08lx RE:%08lx\n", LE, RE);
+        //printf("DEBUG! LE:%08lx RE:%08lx\n", LE, RE);
     }
 
     cipher += LE;
     cipher += RE << 32;
-    printf("DEBUG! Before inverse perm: %08lx\n\n", cipher);
+    //printf("DEBUG! Before inverse perm: %08lx\n\n", cipher);
 
     return DES_init_perm_inv(cipher);
 }
@@ -341,11 +341,9 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
     uint64_t block = 0;
     
     while ((byte = fgetc(input)) != EOF) {
-        for (size_t i = 0; i < 8; i++) {
-            buffer[i] = (uint8_t)byte;
-        }
+        buffer[bytes_read] = byte;
         bytes_read = (bytes_read + 1) % 8;
-
+        
         // Proceed with encryption once the buffer is full
         if (bytes_read == 0) {
             block = merge_8_to_64(buffer);
