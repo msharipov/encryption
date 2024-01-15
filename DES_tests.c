@@ -234,12 +234,23 @@ _Bool test_encrypt(void) {
 
     _Bool fail = 0;
     uint64_t round_keys[16] = {0};
-    uint64_t out = DES_decrypt(DES_encrypt(0, round_keys), round_keys),
-             exp = 0;
+    uint64_t out, exp;
+    const uint64_t SAMPLE = 0xfedcba0987654321ULL;
 
+    out = DES_decrypt(DES_encrypt(0, round_keys), round_keys),
+    exp = 0;
     if (out != exp) {
         fail = 1;
-        printf("Failed encryption/decryption test:\n");
+        printf("Failed encryption/decryption test 0:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
+    DES_generate_round_keys(round_keys, 0x1234);
+    out = DES_decrypt(DES_encrypt(SAMPLE, round_keys), round_keys),
+    exp = SAMPLE;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed encryption/decryption test 1:\n");
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
