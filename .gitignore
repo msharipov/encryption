@@ -43,6 +43,8 @@
 *.pdb
 *.test
 
+enc_block.c
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd

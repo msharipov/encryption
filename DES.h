@@ -286,7 +286,7 @@ uint64_t DES_init_perm_inv(uint64_t src) {
 }
 
 uint64_t DES_encrypt(uint64_t plain, uint64_t rnd_keys[]) {
-
+    printf("DEBUG! Encrypting: %016lx\n", plain);
     uint64_t permuted = DES_init_perm(plain);
 
     uint64_t cipher = 0,
@@ -300,10 +300,12 @@ uint64_t DES_encrypt(uint64_t plain, uint64_t rnd_keys[]) {
         RE = LE_old ^ DES_Feistel(RE_old, rnd_keys[round]);
         LE_old = LE;
         RE_old = RE;
+        printf("DEBUG! LE:%08lx RE:%08lx\n", LE, RE);
     }
 
     cipher += LE;
     cipher += RE << 32;
+    printf("DEBUG! Before inverse perm: %08lx\n\n", cipher);
 
     return DES_init_perm_inv(cipher);
 }
@@ -358,7 +360,6 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
     // Adds the padding bytes to the end of the file
     if (bytes_read == 0) {
         split_64_to_8(buffer, DES_encrypt(0x0808080808080808ULL, keys));
-        printf("DEBUG! Termination padding: %lx\n", merge_8_to_64(buffer));
         size_t written = fwrite(buffer, sizeof(uint8_t), 8, output);
 
         if (written != 8) {

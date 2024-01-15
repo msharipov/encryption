@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "stdio.h": "c",
-        "cmath": "c",
-        "des.h": "c"
-    }
-}
