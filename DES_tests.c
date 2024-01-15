@@ -3,6 +3,21 @@
 #include <stdint.h>
 #include "DES.h"
 
+_Bool test_init_perm(void) {
+    _Bool fail = 0;
+    uint64_t out, exp;
+
+    out = DES_init_perm_inv(DES_init_perm(0x1234567890abcdefULL));
+    exp = 0x1234567890abcdefULL;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed initial block permutation test 0:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
+    return fail;
+}
+
 _Bool test_expansion(void) {
 
     _Bool fail = 0;
@@ -259,6 +274,7 @@ int main(void) {
 
     _Bool fail = 0;
 
+    fail += test_init_perm();
     fail += test_expansion();
     fail += test_s_boxes();
     fail += test_p_box();
