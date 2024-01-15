@@ -5,10 +5,10 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
+#include <time.h>
 #include "DES.h"
 
 #define ENCRYPT_FILE_NAME_LENGTH 256
-#define ENCRYPT_TEMP_NAME_SEED 42
 #define ENCRYPT_MAX_KEY_LENGTH 64
 
 void encrypt_print_usage(void) {
@@ -28,14 +28,14 @@ void encrypt_print_error(void) {
     printf("\x1b[1;31mError!\x1b[0m ");
 }
 
-uint8_t encrypt_byte(uint8_t b, uint8_t key_byte) {
+uint8_t encrypt_block(uint64_t block, uint64_t key) {
     // TODO
-    return b^key_byte;
+    return block;
 }
 
-uint8_t decrypt_byte(uint8_t b, uint8_t key_byte) {
+uint8_t decrypt_block(uint64_t block, uint64_t key) {
     // TODO
-    return b^key_byte;
+    return block;
 }
 
 int main(int argc, char *argv[]) {
@@ -50,7 +50,8 @@ int main(int argc, char *argv[]) {
     char in_filename[ENCRYPT_FILE_NAME_LENGTH],
          out_filename[ENCRYPT_FILE_NAME_LENGTH],
          out_temp_name[ENCRYPT_FILE_NAME_LENGTH] = "encrypt_temp_",
-         key[ENCRYPT_MAX_KEY_LENGTH];
+         key_str[ENCRYPT_MAX_KEY_LENGTH];
+    size_t file_size = 0;
 
     static struct option long_options[] = {
         {"decrypt", no_argument, NULL, 'd'},
@@ -84,7 +85,7 @@ int main(int argc, char *argv[]) {
                 break;
 
             case 'k':
-                strncpy(key, optarg, ENCRYPT_MAX_KEY_LENGTH);
+                strncpy(key_str, optarg, ENCRYPT_MAX_KEY_LENGTH);
                 key_provided = true;
                 break;
 
@@ -131,8 +132,52 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    uint64_t key_word = 0;
+    
+    if(key_provided) {
+
+        // Handle hex keys that start with "0x"
+        if(!strncmp(key_str, "0x", 2)) {
+            char hex_key[ENCRYPT_MAX_KEY_LENGTH];
+            strncpy(hex_key, &key_str[2], ENCRYPT_MAX_KEY_LENGTH - 2);
+            key_word = (uint64_t)strtoull(hex_key, NULL, 16);
+
+        // Handle ASCII keys
+        } else {
+            for (size_t i = 0; i < 8; i++) {
+                if (key_str[i] == '\0') {
+                    break;
+                }
+                key_word <<= 8;
+                key_word += (uint8_t)key_str[i];
+            }
+
+            if (!decrypt) {
+                printf("WARNING! Keys made up of only ASCII characters are weaker\n"
+                       "than those which utilize the entire byte. Consider providing\n"
+                       "the key in the form of a hexcode: 0x...\n");
+            }
+        }
+
+    } else if (!decrypt) {
+
+        // Generate random key
+        srand((uint16_t)time(NULL));
+        key_word += (uint64_t)rand() << 48;
+        key_word += (uint64_t)rand() << 32;
+        key_word += (uint64_t)rand() << 16;
+        key_word += (uint64_t)rand();
+
+        printf("KEY: 0x%lx\n", key_word);
+        
+    } else {
+        encrypt_print_error();
+        printf("Must provide a key for decryption. \n");
+        exit(EXIT_FAILURE);
+    }
+
     // Generate temporary output file
-    srand(ENCRYPT_TEMP_NAME_SEED);
+    srand((uint16_t)time(NULL));
     do {
         char numbers[10];
         snprintf(numbers, 10, "%i", rand());
@@ -146,19 +191,28 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    uint8_t key_byte = 0;
-    for (int16_t i = 0; key[i] != '\0'; i++) {
-        key_byte ^= key[i];        
-    }
-    
-    //TODO create a random key if one is not provided
+    // Get the size of the input file
+    fseek(input , 0 , SEEK_END);
+    file_size = ftell(input);
+    rewind(input);
 
-    int byte;
+    uint8_t buffer[8] = {0};
+    uint8_t byte;
+    size_t bytes_read = 0;
+    
     while ((byte = fgetc(input)) != EOF) {
+        
+        bytes_read = bytes_read++ % 8;
+
+        uint64_t block = 0;
+        for (size_t i = 0; i < 8; i++) {
+
+        }
+
         if (decrypt) {
-            fputc(decrypt_byte(byte, key_byte), temp_output);
+            fputc(decrypt_block(block, 0), temp_output);
         } else {
-            fputc(encrypt_byte(byte, key_byte), temp_output);
+            fputc(encrypt_block(block, 0), temp_output);
         }
     }
 
