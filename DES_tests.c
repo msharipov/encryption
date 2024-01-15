@@ -3,8 +3,6 @@
 #include <stdint.h>
 #include "DES.h"
 
-
-
 _Bool test_expansion(void) {
 
     _Bool fail = 0;
