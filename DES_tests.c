@@ -266,7 +266,7 @@ _Bool test_encrypt(void) {
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
-    DES_generate_round_keys(round_keys, 0x1234);
+    DES_generate_round_keys(round_keys, 0x1234ULL);
     out = DES_decrypt(DES_encrypt(SAMPLE, round_keys), round_keys),
     exp = SAMPLE;
     if (out != exp) {

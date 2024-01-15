@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
          out_filename[ENCRYPT_FILE_NAME_LENGTH],
          out_temp_name[ENCRYPT_FILE_NAME_LENGTH] = "encrypt_temp_",
          key_str[ENCRYPT_MAX_KEY_LENGTH];
-    size_t file_size = 0;
+    uint64_t key_word = 0;
 
     static struct option long_options[] = {
         {"decrypt", no_argument, NULL, 'd'},
@@ -121,8 +121,6 @@ int main(int argc, char *argv[]) {
             exit(EXIT_FAILURE);
         }
     }
-
-    uint64_t key_word = 0;
     
     if(key_provided) {
 
@@ -180,11 +178,6 @@ int main(int argc, char *argv[]) {
         printf("Failed to open a temporary output file for writing.\n");
         exit(EXIT_FAILURE);
     }
-
-    // Get the size of the input file
-    fseek(input , 0 , SEEK_END);
-    file_size = ftell(input);
-    rewind(input);
 
     uint64_t rnd_keys[16] = {0};
     DES_generate_round_keys(rnd_keys, key_word);

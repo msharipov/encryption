@@ -119,6 +119,12 @@ uint64_t merge_8_to_64(uint8_t bytes[]){
     return out;
 }
 
+void split_64_to_8(uint8_t bytes[], uint64_t block){
+    for (int i = 0; i < 8; i++) {
+        bytes[i] = block >> 8*(7 - i) & 0xffULL;
+    }
+}
+
 // Expands 32-bit plaintext to 48 bits and returns the nth 6-bit word
 // 6-bit words are stored in the lower bits of uint8_t
 uint8_t DES_get_expanded_word(uint64_t plain, uint8_t n) {
@@ -341,9 +347,9 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
         // Proceed with encryption once the buffer is full
         if (bytes_read == 0) {
             block = merge_8_to_64(buffer);
-            uint64_t cipher = DES_encrypt(block, keys);
-            size_t written = fwrite(&cipher, sizeof(uint64_t), 1, output);
-            if (written == 0) {
+            split_64_to_8(buffer, DES_encrypt(block, keys));
+            size_t written = fwrite(buffer, sizeof(uint8_t), 8, output);
+            if (written != 8) {
                 printf("File error! Failed to write to the output.\n");
             }
         }
@@ -351,10 +357,11 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
     // Adds the padding bytes to the end of the file
     if (bytes_read == 0) {
-        uint8_t padding[8] = {8, 8, 8, 8, 8, 8, 8, 8};
-        size_t written = fwrite(padding, sizeof(uint8_t), 8, output);
+        split_64_to_8(buffer, DES_encrypt(0x0808080808080808ULL, keys));
+        printf("DEBUG! Termination padding: %lx\n", merge_8_to_64(buffer));
+        size_t written = fwrite(buffer, sizeof(uint8_t), 8, output);
 
-        if (written < 8) {
+        if (written != 8) {
             printf("File error! Failed to write to the output.\n");
         }
         
@@ -364,10 +371,10 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
             buffer[bytes_read + i] = (uint8_t)pad_bytes;
         }
         block = merge_8_to_64(buffer);
-        uint64_t cipher = DES_encrypt(block, keys);
-        size_t written = fwrite(&cipher, sizeof(uint64_t), 1, output);
+        split_64_to_8(buffer, DES_encrypt(block, keys));
+        size_t written = fwrite(buffer, sizeof(uint8_t), 8, output);
 
-        if (written == 0) {
+        if (written != 8) {
             printf("File error! Failed to write to the output.\n");
         }
     }
@@ -375,6 +382,27 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
 void DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
+    uint8_t buffer[8] = {0};
+    int16_t byte;
+    size_t bytes_read = 0;
+    uint64_t block = 0;
+
+    while ((byte = fgetc(input)) != EOF) {
+        for (size_t i = 0; i < 8; i++) {
+            buffer[i] = (uint8_t)byte;
+        }
+        bytes_read = (bytes_read + 1) % 8;
+
+        // Proceed with encryption once the buffer is full
+        if (bytes_read == 0) {
+            block = merge_8_to_64(buffer);
+            uint64_t cipher = DES_encrypt(block, keys);
+            size_t written = fwrite(&cipher, sizeof(uint64_t), 1, output);
+            if (written == 0) {
+                printf("File error! Failed to write to the output.\n");
+            }
+        }
+    }
 }
 
 #endif
