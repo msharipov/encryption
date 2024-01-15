@@ -414,8 +414,8 @@ void DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
                 // Ensure correct padding
                 if (pad_bytes > 8 || pad_bytes == 0) {
                     printf("Invalid padding at the end of the file.\n");
-                    exit(EXIT_FAILURE);
-                    
+                    printf("File will be decoded with padding bytes included.\n");
+                    pad_bytes = 0;
                 }
             }
                 
