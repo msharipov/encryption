@@ -28,16 +28,6 @@ void encrypt_print_error(void) {
     printf("\x1b[1;31mError!\x1b[0m ");
 }
 
-uint8_t encrypt_block(uint64_t block, uint64_t key) {
-    // TODO
-    return block;
-}
-
-uint8_t decrypt_block(uint64_t block, uint64_t key) {
-    // TODO
-    return block;
-}
-
 int main(int argc, char *argv[]) {
 
     bool keep_original_flag = false,
@@ -196,24 +186,13 @@ int main(int argc, char *argv[]) {
     file_size = ftell(input);
     rewind(input);
 
-    uint8_t buffer[8] = {0};
-    uint8_t byte;
-    size_t bytes_read = 0;
-    
-    while ((byte = fgetc(input)) != EOF) {
-        
-        bytes_read = bytes_read++ % 8;
+    uint64_t rnd_keys[16] = {0};
+    DES_generate_round_keys(rnd_keys, key_word);
 
-        uint64_t block = 0;
-        for (size_t i = 0; i < 8; i++) {
-
-        }
-
-        if (decrypt) {
-            fputc(decrypt_block(block, 0), temp_output);
-        } else {
-            fputc(encrypt_block(block, 0), temp_output);
-        }
+    if (decrypt) {
+        DES_decrypt_file(input, temp_output, rnd_keys);
+    } else {
+        DES_encrypt_file(input, temp_output, rnd_keys);
     }
 
     fclose(input);

@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 const uint8_t DES_S_BOXES[8][4][16] = {
 
@@ -85,6 +86,16 @@ const size_t DES_KEY_PERM_2[48] = {
     50, 44, 32, 47, 43, 48, 38, 55,
     33, 52, 45, 41, 49, 35, 28, 31
 };
+
+// Turns an array of eight bytes into an uint64_t
+uint64_t merge_8_to_64(uint8_t bytes[]){
+    uint64_t out = bytes[0];
+    for (int i = 1; i < 8; i++) {
+        out <<= 8;
+        out += bytes[i];
+    }
+    return out;
+}
 
 // Expands 32-bit plaintext to 48 bits and returns the nth 6-bit word
 // 6-bit words are stored in the lower bits of uint8_t
@@ -256,6 +267,58 @@ uint64_t DES_decrypt(uint64_t cipher, uint64_t rnd_keys[]) {
     plain += RE << 32;
 
     return plain;
+}
+
+void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
+
+    uint8_t buffer[8] = {0};
+    int16_t byte;
+    size_t bytes_read = 0;
+    uint64_t block = 0;
+    
+    while ((byte = fgetc(input)) != EOF) {
+        for (size_t i = 0; i < 8; i++) {
+            buffer[i] = (uint8_t)byte;
+        }
+        bytes_read = bytes_read++ % 8;
+
+        // Proceed with encryption once the buffer is full
+        if (bytes_read == 0) {
+            block = merge_8_to_64(buffer);
+            uint64_t cipher = DES_encrypt(block, keys);
+            size_t written = fwrite(&cipher, sizeof(uint64_t), 1, output);
+            if (written == 0) {
+                printf("File error! Failed to write to the output.\n");
+            }
+        }
+    }
+
+    // Adds the padding bytes to the end of the file
+    if (bytes_read == 0) {
+        uint8_t padding[8] = {8, 8, 8, 8, 8, 8, 8, 8};
+        size_t written = fwrite(padding, sizeof(uint8_t), 8, output);
+
+        if (written < 8) {
+            printf("File error! Failed to write to the output.\n");
+        }
+        
+    } else {
+        size_t pad_bytes = 8 - bytes_read;
+        for (size_t i = 0; i < pad_bytes; i++) {
+            buffer[bytes_read + i] = (uint8_t)pad_bytes;
+        }
+        block = merge_8_to_64(buffer);
+        uint64_t cipher = DES_encrypt(block, keys);
+        size_t written = fwrite(&cipher, sizeof(uint64_t), 1, output);
+
+        if (written == 0) {
+            printf("File error! Failed to write to the output.\n");
+        }
+    }
+}
+
+void DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
+
 }
 
 #endif
