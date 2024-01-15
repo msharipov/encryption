@@ -221,7 +221,7 @@ uint64_t DES_Feistel(uint64_t RE, uint64_t round_key) {
     for (int i = 0; i < 8; i++) {
         uint8_t word = DES_get_expanded_word(RE, i);
         word ^= round_key >> (i * 6) & 0x00111111U;
-        word = DES_substitute(word, i);
+        words[i] = DES_substitute(word, i);
     }
 
     return DES_permute(words);
@@ -280,7 +280,7 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
         for (size_t i = 0; i < 8; i++) {
             buffer[i] = (uint8_t)byte;
         }
-        bytes_read = bytes_read++ % 8;
+        bytes_read = (bytes_read + 1) % 8;
 
         // Proceed with encryption once the buffer is full
         if (bytes_read == 0) {
