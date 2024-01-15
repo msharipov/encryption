@@ -209,11 +209,53 @@ uint64_t DES_Feistel(uint64_t RE, uint64_t round_key) {
     uint8_t words[8] = {0};
     for (int i = 0; i < 8; i++) {
         uint8_t word = DES_get_expanded_word(RE, i);
-        word ^= (round_key >> (i * 6) & 0x00111111);
+        word ^= round_key >> (i * 6) & 0x00111111U;
         word = DES_substitute(word, i);
     }
 
     return DES_permute(words);
+}
+
+uint64_t DES_encrypt(uint64_t plain, uint64_t rnd_keys[]) {
+
+    uint64_t cipher = 0,
+             LE_old = plain >> 32,
+             RE_old = plain & 0xffffffffULL,
+             LE = 0,
+             RE = 0;
+
+    for (int round = 0; round < 16; round++) {
+        LE = RE_old;
+        RE = LE_old ^ DES_Feistel(RE_old, rnd_keys[round]);
+        LE_old = LE;
+        RE_old = RE;
+    }
+
+    cipher += LE;
+    cipher += RE << 32;
+
+    return cipher;
+}
+
+uint64_t DES_decrypt(uint64_t cipher, uint64_t rnd_keys[]) {
+
+    uint64_t plain = 0,
+             LE_old = cipher >> 32,
+             RE_old = cipher & 0xffffffffULL,
+             LE = 0,
+             RE = 0;
+
+    for (int round = 0; round < 16; round++) {
+        LE = RE_old;
+        RE = LE_old ^ DES_Feistel(RE_old, rnd_keys[15 - round]);
+        LE_old = LE;
+        RE_old = RE;
+    }
+    
+    plain += LE;
+    plain += RE << 32;
+
+    return plain;
 }
 
 #endif

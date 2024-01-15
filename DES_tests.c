@@ -230,6 +230,22 @@ _Bool test_key_generation(void) {
     return fail;
 }
 
+_Bool test_encrypt(void) {
+
+    _Bool fail = 0;
+    uint64_t round_keys[16] = {0};
+    uint64_t out = DES_decrypt(DES_encrypt(0, round_keys), round_keys),
+             exp = 0;
+
+    if (out != exp) {
+        fail = 1;
+        printf("Failed encryption/decryption test:\n");
+        printf("Expected %lx but got %lx\n", exp, out);
+    }
+
+    return fail;
+}
+
 int main(void) {
 
     _Bool fail = 0;
@@ -241,6 +257,7 @@ int main(void) {
     fail += test_key_perm_2();
     fail += test_key_shift();
     fail += test_key_generation();
+    fail += test_encrypt();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
