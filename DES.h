@@ -220,7 +220,7 @@ uint64_t DES_Feistel(uint64_t RE, uint64_t round_key) {
     uint8_t words[8] = {0};
     for (int i = 0; i < 8; i++) {
         uint8_t word = DES_get_expanded_word(RE, i);
-        word ^= round_key >> (i * 6) & 0x00111111U;
+        word ^= round_key >> 6*(15 - i) & 0x00111111U;
         words[i] = DES_substitute(word, i);
     }
 
