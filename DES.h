@@ -52,6 +52,10 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]);
 
 // Decrypts data from the input file using the round keys and writes it to
 // the output file
-void DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]);
+// return values:
+// 0 - decryption finished normally
+// 1 - file size is not a multiple of 8
+// 2 - error when writing to the output
+uint8_t DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]);
 
 #endif
