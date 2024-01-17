@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
                     break;
                 }
                 key_word <<= 8;
-                key_word += (uint8_t)key_str[i];
+                key_word += (uint8_t)key_str[i] << 1;
             }
 
             if (!decrypt) {
