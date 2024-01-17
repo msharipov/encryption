@@ -368,7 +368,7 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
     }
 }
 
-void DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
+uint8_t DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
     uint8_t buffer[8] = {0};
     int16_t byte;
@@ -384,7 +384,7 @@ void DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
     // Abort if the file is not a multiple of 64-bit blocks
     if (file_size % 8) {
         printf("File size must be a multiple of 8 bytes!\n");
-        exit(EXIT_FAILURE);
+        return 1;
     }
 
     while ((byte = fgetc(input)) != EOF) {
@@ -412,12 +412,12 @@ void DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
                                     8 - pad_bytes, output);
             if (written != 8 - pad_bytes) {
                 printf("File error! Failed to write to the output.\n");
-                abort();
+                return 2;
             }
         }
     }
 
-    
+    return 0;
 }
 
 #endif
