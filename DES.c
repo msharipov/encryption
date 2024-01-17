@@ -322,7 +322,7 @@ uint64_t DES_decrypt(uint64_t cipher, uint64_t rnd_keys[]) {
     return DES_init_perm_inv(plain);
 }
 
-void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
+uint8_t DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
     uint8_t buffer[8] = {0};
     int16_t byte;
@@ -338,7 +338,7 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
             size_t written = fwrite(buffer, sizeof(uint8_t), 8, output);
             if (written != 8) {
                 printf("File error! Failed to write to the output.\n");
-                abort();
+                return 1;
             }
         }
     }
@@ -350,7 +350,7 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
         if (written != 8) {
             printf("File error! Failed to write to the output.\n");
-            abort();
+            return 1;
         }
         
     } else {
@@ -363,9 +363,11 @@ void DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
         if (written != 8) {
             printf("File error! Failed to write to the output.\n");
-            abort();
+            return 1;
         }
     }
+
+    return 0;
 }
 
 uint8_t DES_decrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
