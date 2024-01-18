@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-const uint8_t DES_S_BOXES[8][4][16] = {
+static const uint8_t DES_S_BOXES[8][4][16] = {
 
     {{14,4,13,1,2,15,11,8,3,10,6,12,5,9,0,7},
      {0,15,7,4,14,2,13,1,10,6,12,11,9,5,3,8},
@@ -49,7 +49,7 @@ const uint8_t DES_S_BOXES[8][4][16] = {
 
 };
 
-const uint64_t DES_EXPANSION_MASKS[8] = {
+static const uint64_t DES_EXPANSION_MASKS[8] = {
     0b011111ULL << 27,
     0b111111ULL << 23,
     0b111111ULL << 19,
@@ -60,14 +60,14 @@ const uint64_t DES_EXPANSION_MASKS[8] = {
     0b011111ULL,
 };
 
-const size_t DES_P_BOX[32] = {
+static const size_t DES_P_BOX[32] = {
     15, 6,  19, 20, 28, 11, 27, 16,
     0,  14, 22, 25, 4,  17, 30, 9,
     1,  7,  23, 13, 31, 26, 2,  8,
     18, 12, 29, 5,  21, 10, 3,  24    
 };
 
-const size_t DES_KEY_PERM_1[56] = {
+static const size_t DES_KEY_PERM_1[56] = {
     56, 48, 40, 32, 24, 16, 8,
     0,  57, 49, 41, 33, 25, 17,
     9,  1,  58, 50, 42, 34, 26,
@@ -78,7 +78,7 @@ const size_t DES_KEY_PERM_1[56] = {
     20, 12, 4,  27, 19, 11, 3
 };
 
-const size_t DES_KEY_PERM_2[48] = {
+static const size_t DES_KEY_PERM_2[48] = {
     13, 16, 10, 23, 0,  4,  2,  27,
     14, 5,  20, 9,  22, 18, 11, 3,
     25, 7,  15, 6,  26, 19, 12, 1,
@@ -87,7 +87,7 @@ const size_t DES_KEY_PERM_2[48] = {
     33, 52, 45, 41, 49, 35, 28, 31
 };
 
-const size_t DES_IP[64] = {
+static const size_t DES_IP[64] = {
     57, 49, 41, 33, 25, 17, 9,  1,
     59, 51, 43, 35, 27, 19, 11, 3,
     61, 53, 45, 37, 29, 21, 13, 5,
@@ -98,7 +98,7 @@ const size_t DES_IP[64] = {
     62, 54, 46, 38, 30, 22, 14, 6
 };
 
-const size_t DES_IP_INV[64] = {
+static const size_t DES_IP_INV[64] = {
     39, 7, 47, 15, 55, 23, 63, 31,
     38, 6, 46, 14, 54, 22, 62, 30,
     37, 5, 45, 13, 53, 21, 61, 29,
