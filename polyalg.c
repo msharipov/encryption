@@ -36,4 +36,17 @@ static const uint8_t GF28_MULT_SMALL = {
     0x07, 0x07, 0x1c, 0x1c, 0x2a, 0x2a, 0x31, 0x31
 };
 
+uint8_t GF28_mult(uint8_t f, uint8_t g) {
+
+    uint8_t result = 0;
+
+    for (uint8_t n = 0; n < 8; n++) {
+        if (g >> n & 1U){
+            result ^= f << n;
+        }
+    }
+
+    return (result ^ GF28_MULT_SMALL[g]);
+}
+
 #endif
