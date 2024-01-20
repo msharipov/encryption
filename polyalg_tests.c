@@ -16,7 +16,7 @@ _Bool test_GF28mult(void) {
     }
 
     out = GF28_mult(0xAD, 0x02);
-    exp = (uint8_t)(0xAD << 1) ^ 0b11011;
+    exp = 0x41;
     if (out != exp) {
         fail = 1;
         printf("Failed multiplication in GF(2^8) test 1:\n");
@@ -24,10 +24,26 @@ _Bool test_GF28mult(void) {
     }
 
     out = GF28_mult(0xAD, 0x04);
-    exp = (uint8_t)(0xAD << 2) ^ 0b101101;
+    exp = 0x82;
     if (out != exp) {
         fail = 1;
         printf("Failed multiplication in GF(2^8) test 2:\n");
+        printf("Expected %x but got %x\n", exp, out);
+    }
+
+    out = GF28_mult(0xAD, 0x03);
+    exp = 0xEC;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed multiplication in GF(2^8) test 3:\n");
+        printf("Expected %x but got %x\n", exp, out);
+    }
+
+    out = GF28_mult(0xAD, 0x08);
+    exp = 0x1F;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed multiplication in GF(2^8) test 4:\n");
         printf("Expected %x but got %x\n", exp, out);
     }
 
