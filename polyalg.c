@@ -25,7 +25,7 @@ uint8_t GF28_mult(uint8_t f, uint8_t g) {
 }
 
 
-int64_t poly_order(uint64_t p[], size_t max_ord) {
+int64_t poly_order(int64_t p[], size_t max_ord) {
 
     for (size_t i = max_ord; i >= 0; i--) {
         if (p[i]) {
@@ -37,20 +37,20 @@ int64_t poly_order(uint64_t p[], size_t max_ord) {
 }
 
 
-int64_t poly_leadc(uint64_t p[], size_t max_ord) {
+int64_t poly_leadc(int64_t p[], size_t max_ord) {
 
-    for (size_t i = max_ord; i >= 0; i--) {
+    for (size_t i = max_ord; i > 0; i--) {
         if (p[i]) {
             return p[i];
         }
     }
 
-    return 0;
+    return p[0];
 }
 
 
-uint8_t poly_add(uint64_t dest[], uint64_t add[], 
-                 size_t max_ord, uint64_t m[]) {
+uint8_t poly_add(int64_t dest[], int64_t add[], 
+                 size_t max_ord, int64_t m[]) {
 
     if (poly_order(m, max_ord) == -1) {
         return 1;
