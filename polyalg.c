@@ -2,6 +2,7 @@
 #define POLYALG_C
 
 #include <stdint.h>
+#include <assert.h>
 
 uint8_t GF28_mult(uint8_t f, uint8_t g) {
 
@@ -23,12 +24,47 @@ uint8_t GF28_mult(uint8_t f, uint8_t g) {
     return result;
 }
 
-void poly_add(uint64_t dest[], uint64_t add[], size_t order, uint64_t m[]) {
 
-    // Size of dest and add must be at most order+1
-    for (size_t i = 0; i <= order; i++) {
+int64_t poly_order(uint64_t p[], size_t max_ord) {
+
+    for (size_t i = max_ord; i >= 0; i--) {
+        if (p[i]) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+
+int64_t poly_leadc(uint64_t p[], size_t max_ord) {
+
+    for (size_t i = max_ord; i >= 0; i--) {
+        if (p[i]) {
+            return p[i];
+        }
+    }
+
+    return 0;
+}
+
+
+uint8_t poly_add(uint64_t dest[], uint64_t add[], 
+                 size_t max_ord, uint64_t m[]) {
+
+    if (poly_order(m, max_ord) == -1) {
+        return 1;
+    }
+
+    for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += add[i];
     }
+
+    size_t m_order = poly_order(m, max_ord);
+
+
+    return 0;
 }
+
 
 #endif
