@@ -8,6 +8,9 @@
 // Returns the product as a byte where MSB is the coefficient of x^7
 uint8_t GF28_mult(uint8_t f, uint8_t g);
 
+// Returns the congruence class of n in Z_[modulo] arithmetic
+int64_t poly_concl(int64_t n, int64_t modulo);
+
 // Returns the order of the highest non-zero term from x^0 to x^[order],
 // inclusively. Returns -1 if all coefficients are 0.
 int64_t poly_order(int64_t p[], size_t max_ord);

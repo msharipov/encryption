@@ -141,6 +141,62 @@ _Bool test_poly_leadc(void) {
     return fail;
 }
 
+_Bool test_poly_concl(void) {
+    _Bool fail = 0;
+    int64_t out, exp;
+
+    out = poly_concl(15, 5);
+    exp = 0;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_concl test 0:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_concl(12, 7);
+    exp = 5;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_concl test 1:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_concl(6, 35);
+    exp = 6;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_concl test 2:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_concl(0, 11);
+    exp = 0;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_concl test 3:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_concl(-7, 5);
+    exp = 3;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_concl test 4:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_concl(-18, 9);
+    exp = 0;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_concl test 5:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+
+    return fail;
+}
+
 int main (void) {
 
     _Bool fail = 0;
@@ -148,6 +204,7 @@ int main (void) {
     fail += test_GF28mult();
     fail += test_poly_order();
     fail += test_poly_leadc();
+    fail += test_poly_concl();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");

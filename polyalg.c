@@ -62,9 +62,18 @@ uint8_t poly_add(int64_t dest[], int64_t add[],
 
     size_t m_order = poly_order(m, max_ord);
 
-
     return 0;
 }
 
+int64_t poly_concl(int64_t n, int64_t modulo) {
+
+    int64_t simple_mod = n % modulo;
+    
+    if (simple_mod > 0) {
+        return n % modulo;
+    } else {
+        return (modulo + (n % modulo)) % modulo;
+    }
+}
 
 #endif
