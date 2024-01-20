@@ -23,4 +23,12 @@ uint8_t GF28_mult(uint8_t f, uint8_t g) {
     return result;
 }
 
+void poly_add(uint64_t dest[], uint64_t add[], size_t order, uint64_t m[]) {
+
+    // Size of dest and add must be at most order+1
+    for (size_t i = 0; i <= order; i++) {
+        dest[i] += add[i];
+    }
+}
+
 #endif
