@@ -193,7 +193,6 @@ _Bool test_poly_concl(void) {
         printf("Expected %li but got %li\n", exp, out);
     }
 
-
     return fail;
 }
 
