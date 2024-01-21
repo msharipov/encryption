@@ -197,6 +197,7 @@ _Bool test_poly_concl(void) {
     return fail;
 }
 
+
 int main (void) {
 
     _Bool fail = 0;
@@ -205,6 +206,7 @@ int main (void) {
     fail += test_poly_order();
     fail += test_poly_leadc();
     fail += test_poly_concl();
+    fail += test_poly_mod();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");

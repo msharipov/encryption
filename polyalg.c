@@ -65,14 +65,23 @@ uint8_t poly_add(int64_t dest[], int64_t add[],
     return 0;
 }
 
+
 int64_t poly_concl(int64_t n, int64_t modulo) {
 
     int64_t simple_mod = n % modulo;
-    
+
     if (simple_mod > 0) {
         return n % modulo;
     } else {
         return (modulo + (n % modulo)) % modulo;
+    }
+}
+
+
+void poly_mod(int64_t p[], int64_t modulo, size_t max_ord) {
+
+    for (size_t i = 0; i <= max_ord; i++) {
+        p[i] = poly_concl(p[i], modulo);
     }
 }
 

@@ -11,6 +11,10 @@ uint8_t GF28_mult(uint8_t f, uint8_t g);
 // Returns the congruence class of n in Z_[modulo] arithmetic
 int64_t poly_concl(int64_t n, int64_t modulo);
 
+// Converts the coefficients of polynomial [p] to the respective residues
+// in Z_[modulo] arithmetic.
+void poly_mod(int64_t p[], int64_t modulo, size_t max_ord);
+
 // Returns the order of the highest non-zero term from x^0 to x^[order],
 // inclusively. Returns -1 if all coefficients are 0.
 int64_t poly_order(int64_t p[], size_t max_ord);
