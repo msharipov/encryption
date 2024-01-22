@@ -48,6 +48,33 @@ int64_t poly_leadc(int64_t p[], size_t max_ord) {
 }
 
 
+int64_t poly_mult_inv(int64_t x, int64_t mod) {
+
+    int64_t b0 = 0, x0 = 0, y0 = 0,
+            b1 = x, x1 = 1, y1 = 0,
+            b2 = mod, x2 = 0, y2 = 1;
+
+    while (b2) {
+        b0 = b1;
+        b1 = b2;
+        x0 = x1;
+        x1 = x2;
+        y0 = y1;
+        y1 = y2;
+
+        b2 = b0 % b1;
+        x2 = x0 - (b0/b1)*x1;
+        y2 = y0 - (b0/b1)*y1;
+    }
+
+    if (b1 > 1) {
+        return -b1;
+    } else {
+        return x1 + (x1 > 0 ? 0 : mod);
+    }
+}
+
+
 uint8_t poly_add(int64_t dest[], int64_t add[], 
                  size_t max_ord, int64_t m[]) {
 
@@ -55,12 +82,15 @@ uint8_t poly_add(int64_t dest[], int64_t add[],
         return 1;
     }
 
+    // Addition mod 
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += add[i];
     }
 
     size_t m_order = poly_order(m, max_ord);
+    
 
+    // WIP
     return 0;
 }
 
