@@ -68,8 +68,10 @@ int64_t poly_mult_inv(int64_t x, int64_t mod) {
     }
 
     if (b1 > 1) {
+        // Return -GCD if there is no inverse
         return -b1;
     } else {
+        // Return the inverse
         return x1 + (x1 > 0 ? 0 : mod);
     }
 }
