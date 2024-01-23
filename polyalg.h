@@ -26,7 +26,7 @@ int64_t poly_leadc(int64_t p[], size_t max_ord);
 // Returns the multiplicative inverse of [x] modulo [mod] if [x] and [mod]
 // are coprime. If x and mod are not coprime, then it returns negative GCD
 // of the two.
-int64_t poly_mult_inv(int64_t x, int64_t mod)
+int64_t poly_mult_inv(int64_t x, int64_t mod);
 
 // Adds two polynomials [dest] and [add] modulo m(x); the result is stored
 // in [dest]. [order] specifies up to which order the addition must happen. 
