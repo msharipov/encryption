@@ -77,22 +77,12 @@ int64_t poly_mult_inv(int64_t x, int64_t mod) {
 }
 
 
-uint8_t poly_add(int64_t dest[], int64_t add[], 
-                 size_t max_ord, int64_t m[]) {
+uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 
-    if (poly_order(m, max_ord) == -1) {
-        return 1;
-    }
-
-    // Addition mod 
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += add[i];
     }
 
-    size_t m_order = poly_order(m, max_ord);
-    
-
-    // WIP
     return 0;
 }
 
