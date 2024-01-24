@@ -196,6 +196,20 @@ _Bool test_poly_concl(void) {
     return fail;
 }
 
+_Bool test_poly_mult_inv(void) {
+    _Bool fail = 0;
+    int64_t out, exp;
+
+    out = poly_mult_inv(0, 7);
+    exp = -7;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_mult_inv test 0:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    return fail;
+}
 
 int main (void) {
 
@@ -205,6 +219,7 @@ int main (void) {
     fail += test_poly_order();
     fail += test_poly_leadc();
     fail += test_poly_concl();
+    fail += test_poly_mult_inv();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
