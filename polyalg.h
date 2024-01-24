@@ -15,7 +15,7 @@ int64_t poly_concl(int64_t n, int64_t modulo);
 // in Z_[modulo] arithmetic.
 void poly_mod(int64_t p[], int64_t modulo, size_t max_ord);
 
-// Returns the order of the highest non-zero term from x^0 to x^[order],
+// Returns the order of the highest non-zero term from x^0 to x^[max_ord],
 // inclusively. Returns -1 if all coefficients are 0.
 int64_t poly_order(int64_t p[], size_t max_ord);
 
@@ -28,10 +28,10 @@ int64_t poly_leadc(int64_t p[], size_t max_ord);
 // of the two.
 int64_t poly_mult_inv(int64_t x, int64_t mod);
 
-// Adds two polynomials [dest] and [add] modulo [mod]; the result is stored
-// in [dest]. [order] specifies up to which order the addition must happen. 
-// There will be [order]+1 additions in total, so both [dest] and [add] should
-// be at least that large.
-uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord, int64_t mod);
+// Adds two polynomials [dest] and [add]; the result is stored in [dest].
+// [max_ord] specifies up to which order the addition must happen. There will
+// be [max_ord]+1 additions in total, so both [dest] and [add] should be at 
+// least that large.
+uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord);
 
 #endif
