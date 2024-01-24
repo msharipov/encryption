@@ -24,27 +24,15 @@ uint8_t GF28_mult(uint8_t f, uint8_t g) {
 }
 
 
-int64_t poly_order(int64_t p[], size_t max_ord) {
+int64_t poly_concl(int64_t n, int64_t modulo) {
 
-    for (size_t i = max_ord; i >= 0; i--) {
-        if (p[i]) {
-            return i;
-        }
+    int64_t simple_mod = n % modulo;
+
+    if (simple_mod > 0) {
+        return n % modulo;
+    } else {
+        return (modulo + (n % modulo)) % modulo;
     }
-
-    return -1;
-}
-
-
-int64_t poly_leadc(int64_t p[], size_t max_ord) {
-
-    for (size_t i = max_ord; i > 0; i--) {
-        if (p[i]) {
-            return p[i];
-        }
-    }
-
-    return p[0];
 }
 
 
@@ -77,6 +65,30 @@ int64_t poly_mult_inv(int64_t x, int64_t mod) {
 }
 
 
+int64_t poly_order(int64_t p[], size_t max_ord) {
+
+    for (size_t i = max_ord; i >= 0; i--) {
+        if (p[i]) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+
+int64_t poly_leadc(int64_t p[], size_t max_ord) {
+
+    for (size_t i = max_ord; i > 0; i--) {
+        if (p[i]) {
+            return p[i];
+        }
+    }
+
+    return p[0];
+}
+
+
 uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
@@ -84,18 +96,6 @@ uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
     }
 
     return 0;
-}
-
-
-int64_t poly_concl(int64_t n, int64_t modulo) {
-
-    int64_t simple_mod = n % modulo;
-
-    if (simple_mod > 0) {
-        return n % modulo;
-    } else {
-        return (modulo + (n % modulo)) % modulo;
-    }
 }
 
 
