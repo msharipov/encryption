@@ -2,6 +2,7 @@
 #define POLYALG_C
 
 #include <stdint.h>
+#include <stdbool.h>
 
 uint8_t GF28_mult(uint8_t f, uint8_t g) {
 
@@ -89,13 +90,23 @@ int64_t poly_leadc(int64_t p[], size_t max_ord) {
 }
 
 
+bool poly_same(int64_t a[], int64_t b[], size_t max_ord) {
+
+    for (size_t i = 0; i <= max_ord; i++) {
+        if (a[i] != b[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 void poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += add[i];
     }
-
-    return 0;
 }
 
 
@@ -104,8 +115,6 @@ void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord) {
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += b*add[i];
     }
-
-    return 0;
 }
 
 

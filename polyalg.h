@@ -28,6 +28,10 @@ int64_t poly_leadc(int64_t p[], size_t max_ord);
 // of the two.
 int64_t poly_mult_inv(int64_t x, int64_t mod);
 
+// Compares two polynomials [a] and [b]. Returns true if all coefficients up
+// to order [max_ord] match; returns false otherwise.
+bool poly_same(int64_t a[], int64_t b[], size_t max_ord);
+
 // Adds two polynomials [dest] and [add]; the result is stored in [dest].
 // [max_ord] specifies up to which order the addition must happen. There will
 // be [max_ord]+1 additions in total, so both [dest] and [add] should be at 

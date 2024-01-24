@@ -251,6 +251,22 @@ _Bool test_poly_mult_inv(void) {
     return fail;
 }
 
+_Bool test_poly_same(void) {
+    _Bool fail = 0;
+    int64_t out, exp;
+
+    int64_t a0[6] = {5, 3, -7, 1, 3, 2};
+    out = poly_same(a0, a0, 6);
+    exp = 1;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_same test 0:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    return fail;
+}
+
 int main (void) {
 
     _Bool fail = 0;
@@ -260,6 +276,7 @@ int main (void) {
     fail += test_poly_leadc();
     fail += test_poly_concl();
     fail += test_poly_mult_inv();
+    fail += test_poly_same();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
