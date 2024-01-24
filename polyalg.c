@@ -99,6 +99,11 @@ uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 }
 
 
+void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord) {
+    // WIP
+}
+
+
 void poly_mod(int64_t p[], int64_t modulo, size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {

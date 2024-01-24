@@ -34,4 +34,9 @@ int64_t poly_mult_inv(int64_t x, int64_t mod);
 // least that large.
 uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord);
 
+// Maps polynomials with integer coefficients to members of a set modulo
+// [mod_p] with coefficients in GF([mod]). [mod] has to be prime and [mod_p]
+// has to be irreducible
+void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord);
+
 #endif
