@@ -89,7 +89,7 @@ int64_t poly_leadc(int64_t p[], size_t max_ord) {
 }
 
 
-uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
+void poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += add[i];
@@ -99,8 +99,21 @@ uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 }
 
 
+void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord) {
+
+    for (size_t i = 0; i <= max_ord; i++) {
+        dest[i] += b*add[i];
+    }
+
+    return 0;
+}
+
+
 void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord) {
-    // WIP
+
+    while (poly_order(p, max_ord) >= poly_order(mod_p, max_ord)) {
+        
+    }
 }
 
 

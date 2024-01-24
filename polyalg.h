@@ -32,7 +32,10 @@ int64_t poly_mult_inv(int64_t x, int64_t mod);
 // [max_ord] specifies up to which order the addition must happen. There will
 // be [max_ord]+1 additions in total, so both [dest] and [add] should be at 
 // least that large.
-uint8_t poly_add(int64_t dest[], int64_t add[], size_t max_ord);
+void poly_add(int64_t dest[], int64_t add[], size_t max_ord);
+
+// Adds [add] times [b] to [dest], similarly to poly_add.
+void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord);
 
 // Maps polynomials with integer coefficients to members of a set modulo
 // [mod_p] with coefficients in GF([mod]). [mod] has to be prime and [mod_p]
