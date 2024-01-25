@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "DES.h"
+#include "../DES.h"
 
 _Bool test_init_perm(void) {
     _Bool fail = 0;

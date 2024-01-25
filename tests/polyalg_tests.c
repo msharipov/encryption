@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "polyalg.h"
+#include "../polyalg.h"
 
 _Bool test_GF28mult(void) {
     _Bool fail = 0;
