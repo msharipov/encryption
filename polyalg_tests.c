@@ -256,11 +256,29 @@ _Bool test_poly_same(void) {
     int64_t out, exp;
 
     int64_t a0[6] = {5, 3, -7, 1, 3, 2};
-    out = poly_same(a0, a0, 6);
+    out = poly_same(a0, a0, 5);
     exp = 1;
     if (out != exp) {
         fail = 1;
         printf("Failed poly_same test 0:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    int64_t a1[8] = {5, 3, -7, 1, 3, 2, 5, -11};
+    out = poly_same(a0, a1, 5);
+    exp = 1;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_same test 1:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    int64_t a2[5] = {1, 2, 3, 4, 5};
+    out = poly_same(a0, a2, 4);
+    exp = 0;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_same test 2:\n");
         printf("Expected %li but got %li\n", exp, out);
     }
 
