@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 uint8_t GF28_mult(uint8_t f, uint8_t g) {
 
