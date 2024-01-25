@@ -103,6 +103,14 @@ bool poly_same(int64_t a[], int64_t b[], size_t max_ord) {
 }
 
 
+void poly_mod(int64_t p[], int64_t modulo, size_t max_ord) {
+
+    for (size_t i = 0; i <= max_ord; i++) {
+        p[i] = poly_concl(p[i], modulo);
+    }
+}
+
+
 void poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
@@ -123,14 +131,6 @@ void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord) {
 
     while (poly_order(p, max_ord) >= poly_order(mod_p, max_ord)) {
         
-    }
-}
-
-
-void poly_mod(int64_t p[], int64_t modulo, size_t max_ord) {
-
-    for (size_t i = 0; i <= max_ord; i++) {
-        p[i] = poly_concl(p[i], modulo);
     }
 }
 

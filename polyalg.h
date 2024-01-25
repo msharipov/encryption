@@ -11,9 +11,10 @@ uint8_t GF28_mult(uint8_t f, uint8_t g);
 // Returns the congruence class of n in Z_[modulo] arithmetic
 int64_t poly_concl(int64_t n, int64_t modulo);
 
-// Converts the coefficients of polynomial [p] to the respective residues
-// in Z_[modulo] arithmetic.
-void poly_mod(int64_t p[], int64_t modulo, size_t max_ord);
+// Returns the multiplicative inverse of [x] modulo [mod] if [x] and [mod]
+// are coprime. If x and mod are not coprime, then it returns negative GCD
+// of the two.
+int64_t poly_mult_inv(int64_t x, int64_t mod);
 
 // Returns the order of the highest non-zero term from x^0 to x^[max_ord],
 // inclusively. Returns -1 if all coefficients are 0.
@@ -23,14 +24,13 @@ int64_t poly_order(int64_t p[], size_t max_ord);
 // Returns 0 if all coefficients are 0.
 int64_t poly_leadc(int64_t p[], size_t max_ord);
 
-// Returns the multiplicative inverse of [x] modulo [mod] if [x] and [mod]
-// are coprime. If x and mod are not coprime, then it returns negative GCD
-// of the two.
-int64_t poly_mult_inv(int64_t x, int64_t mod);
-
 // Compares two polynomials [a] and [b]. Returns true if all coefficients up
 // to order [max_ord] match; returns false otherwise.
 bool poly_same(int64_t a[], int64_t b[], size_t max_ord);
+
+// Converts the coefficients of polynomial [p] to the respective residues
+// in Z_[modulo] arithmetic.
+void poly_mod(int64_t p[], int64_t modulo, size_t max_ord);
 
 // Adds two polynomials [dest] and [add]; the result is stored in [dest].
 // [max_ord] specifies up to which order the addition must happen. There will
