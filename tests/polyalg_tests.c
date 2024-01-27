@@ -308,6 +308,26 @@ _Bool test_poly_add(void) {
         printf("Failed poly_add test 1.\n");
     }
 
+    int64_t a2[6] = {1, 2, 3, 4, 5, 6},
+            b2[6] = {-1, -2, -3, -4, -5, -6},
+            exp2[6] = {0};
+            
+    poly_add(a2, b2, 5);
+    if (!poly_same(a2, exp2, 5)) {
+        fail = 1;
+        printf("Failed poly_add test 2.\n");
+    }
+
+    int64_t a3[6] = {1, 2, 3, 4, 5, 6},
+            b3[6] = {-1, -2, -3, -4, -5, -6},
+            exp3[6] = {0, 0, 0, 4, 5, 6};
+            
+    poly_add(a3, b3, 2);
+    if (!poly_same(a3, exp3, 5)) {
+        fail = 1;
+        printf("Failed poly_add test 3.\n");
+    }
+
     return fail;
 }
 
