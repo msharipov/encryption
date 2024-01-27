@@ -285,6 +285,32 @@ _Bool test_poly_same(void) {
     return fail;
 }
 
+_Bool test_poly_add(void) {
+    _Bool fail = 0;
+
+    int64_t a0[6] = {5, 3, -7, 1, 3, 2},
+            b0[6] = {0},
+            exp0[6] = {5, 3, -7, 1, 3, 2};
+
+    poly_add(a0, b0, 5);
+    if (!poly_same(a0, exp0, 5)) {
+        fail = 1;
+        printf("Failed poly_add test 0.\n");
+    }
+
+    int64_t a1[6] = {0},
+            b1[6] = {5, 3, -7, 1, 3, 2},
+            exp1[6] = {5, 3, -7, 1, 3, 2};
+            
+    poly_add(a1, b1, 5);
+    if (!poly_same(a1, exp1, 5)) {
+        fail = 1;
+        printf("Failed poly_add test 1.\n");
+    }
+
+    return fail;
+}
+
 int main (void) {
 
     _Bool fail = 0;
@@ -295,6 +321,7 @@ int main (void) {
     fail += test_poly_concl();
     fail += test_poly_mult_inv();
     fail += test_poly_same();
+    fail += test_poly_add();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
