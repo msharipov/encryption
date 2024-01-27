@@ -400,6 +400,39 @@ _Bool test_poly_add_mult(void) {
     return fail;
 }
 
+_Bool test_poly_add_ord(void) {
+    _Bool fail = 0;
+
+    int64_t a0[7] = {2, 4, -2, 3, 0, 0, 0},
+            exp0[7] = {0, 0, 2, 4, -2, 3, 0};
+
+    poly_add_ord(a0, 2, 6);
+    if (!poly_same(a0, exp0, 6)) {
+        fail = 1;
+        printf("Failed poly_add_ord test 0.\n");
+    }
+
+    int64_t a1[7] = {1, 2, 3, 4, 5, 6, 7},
+            exp1[7] = {1, 2, 3, 4, 5, 6, 7};
+
+    poly_add_ord(a1, 0, 6);
+    if (!poly_same(a1, exp1, 6)) {
+        fail = 1;
+        printf("Failed poly_add_ord test 1.\n");
+    }
+
+    int64_t a2[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9},
+            exp2[9] = {0, 0, 1, 2, 3, 4, 5, 8, 9};
+
+    poly_add_ord(a2, 2, 4);
+    if (!poly_same(a2, exp2, 8)) {
+        fail = 1;
+        printf("Failed poly_add_ord test 2.\n");
+    }
+
+    return fail;
+}
+
 int main (void) {
 
     _Bool fail = 0;
@@ -413,6 +446,7 @@ int main (void) {
     fail += test_poly_mod();
     fail += test_poly_add();
     fail += test_poly_add_mult();
+    fail += test_poly_add_ord();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
