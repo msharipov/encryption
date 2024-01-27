@@ -43,7 +43,7 @@ void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord);
 
 // Multiplies the polynomial [p](x) by x^[power]. Requires that [power] >= 0 
 // and that the size of [p] must be at least [max_ord]+[power]+1. 
-void poly_add_ord(int64_t p[], int16_t power, size_t max_ord);
+void poly_add_ord(int64_t p[], size_t power, size_t max_ord);
 
 // Maps polynomials with integer coefficients to members of a set modulo
 // [mod_p] with coefficients in GF([mod]). [mod] has to be prime and [mod_p]

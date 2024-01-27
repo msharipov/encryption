@@ -127,7 +127,7 @@ void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord) {
 }
 
 
-void poly_add_ord(int64_t p[], int64_t power, size_t max_ord) {
+void poly_add_ord(int64_t p[], size_t power, size_t max_ord) {
     
     if (power == 0) {
         return;
