@@ -377,6 +377,26 @@ _Bool test_poly_add_mult(void) {
         printf("Failed poly_add_mult test 0.\n");
     }
 
+    int64_t a1[7] = {3, 4, 5, 1, -4, 2, -8},
+            b1[7] = {1, 2, 3, 4, 5, 6, 7},
+            exp1[7] = {3, 4, 5, 1, -4, 2, -8};
+
+    poly_add_mult(a1, b1, 0, 6);
+    if (!poly_same(a1, exp1, 6)) {
+        fail = 1;
+        printf("Failed poly_add_mult test 1.\n");
+    }
+
+    int64_t a2[7] = {3, 4, 5, 1, -4, 2, -8},
+            b2[7] = {3, 4, 5, 1, -4, 2, -8},
+            exp2[7] = {0};
+
+    poly_add_mult(a2, b2, -1, 6);
+    if (!poly_same(a2, exp2, 6)) {
+        fail = 1;
+        printf("Failed poly_add_mult test 2.\n");
+    }
+
     return fail;
 }
 int main (void) {
