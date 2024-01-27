@@ -127,10 +127,21 @@ void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord) {
 }
 
 
+void poly_add_ord(int64_t p[], int16_t power, size_t max_ord) {
+    
+    if (power == 0) {
+        return;
+    }
+
+    
+}
+
+
 void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord) {
 
     while (poly_order(p, max_ord) >= poly_order(mod_p, max_ord)) {
-        
+        poly_add_mult(p, mod_p, -1, max_ord);
+        poly_mod(p, max_ord)
     }
 }
 
