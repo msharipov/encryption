@@ -41,8 +41,8 @@ void poly_add(int64_t dest[], int64_t add[], size_t max_ord);
 // Adds [add] times [b] to [dest], similarly to poly_add.
 void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord);
 
-// Multiplies the polynomial [p](x) by x^[power]. If [power] is positive, then
-// the size of [p] must be at least [max_ord]+[power]+1. 
+// Multiplies the polynomial [p](x) by x^[power]. Requires that [power] >= 0 
+// and that the size of [p] must be at least [max_ord]+[power]+1. 
 void poly_add_ord(int64_t p[], int16_t power, size_t max_ord);
 
 // Maps polynomials with integer coefficients to members of a set modulo
