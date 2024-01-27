@@ -399,6 +399,7 @@ _Bool test_poly_add_mult(void) {
 
     return fail;
 }
+
 int main (void) {
 
     _Bool fail = 0;
