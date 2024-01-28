@@ -303,7 +303,7 @@ _Bool test_poly_copy(void) {
             exp1[9] = {1, 2, 3, 4, 5, 0, 0, 0, 0};
 
     poly_copy(a1, b1, 4);
-    if (!poly_same(a1, exp1, 4)) {
+    if (!poly_same(a1, exp1, 8)) {
         fail = 1;
         printf("Failed poly_copy test 1.\n");
     }
