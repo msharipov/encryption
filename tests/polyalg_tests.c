@@ -450,7 +450,7 @@ _Bool test_poly_add_ord(void) {
     int64_t a2[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9},
             exp2[9] = {0, 0, 1, 2, 3, 4, 5, 8, 9};
 
-    poly_add_ord(a2, 2, 4);
+    poly_add_ord(a2, 2, 6);
     if (!poly_same(a2, exp2, 8)) {
         fail = 1;
         printf("Failed poly_add_ord test 2.\n");
@@ -470,6 +470,16 @@ _Bool test_poly_inring(void) {
     if (!poly_same(a0, exp0, 4)) {
         fail = 1;
         printf("Failed poly_inring test 0.\n");
+    }
+
+    int64_t a1[5] = {2, 2, 0, 2, 2},
+            b1[5] = {1, 1, 0, 0, 0},
+            exp1[5] = {0};
+
+    poly_inring(a1, b1, 5, 4);
+    if (!poly_same(a1, exp1, 4)) {
+        fail = 1;
+        printf("Failed poly_inring test 1.\n");
     }
 
     return fail;
