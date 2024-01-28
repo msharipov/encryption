@@ -141,7 +141,7 @@ void poly_add_ord(int64_t p[], size_t power, size_t max_ord) {
         return;
     }
 
-    for (int64_t i = max_ord + power; i >= power; i--) {
+    for (int64_t i = max_ord; i >= power; i--) {
         p[i] = p[i - power];
     }
 
@@ -158,11 +158,10 @@ void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord) {
             m_ord = poly_order(mod_p, max_ord);
 
     while (p_ord >= m_ord) {
-        size_t shift = p_ord - m_ord;
         int64_t b = poly_leadc(p, max_ord);
 
         poly_copy(m_copy, mod_p, max_ord);
-        poly_add_ord(m_copy, shift, max_ord);
+        poly_add_ord(m_copy, p_ord - m_ord, max_ord);
 
         // At this point, [p] and [m_copy] should have the same order.
 
