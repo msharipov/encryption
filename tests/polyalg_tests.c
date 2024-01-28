@@ -459,37 +459,37 @@ _Bool test_poly_add_ord(void) {
     return fail;
 }
 
-_Bool test_poly_inring(void) {
+_Bool test_poly_GFrem(void) {
     _Bool fail = 0;
 
     int64_t a0[5] = {1, 2, 3, 4, 5},
             b0[5] = {1, 2, 3, 4, 5},
             exp0[5] = {0};
 
-    poly_inring(a0, b0, 11, 4);
+    poly_GFrem(a0, b0, 11, 4);
     if (!poly_same(a0, exp0, 4)) {
         fail = 1;
-        printf("Failed poly_inring test 0.\n");
+        printf("Failed poly_GFrem test 0.\n");
     }
 
     int64_t a1[5] = {2, 2, 0, 2, 2},
             b1[5] = {1, 1, 0, 0, 0},
             exp1[5] = {0};
 
-    poly_inring(a1, b1, 5, 4);
+    poly_GFrem(a1, b1, 5, 4);
     if (!poly_same(a1, exp1, 4)) {
         fail = 1;
-        printf("Failed poly_inring test 1.\n");
+        printf("Failed poly_GFrem test 1.\n");
     }
 
     int64_t a2[7] = {6, 0, 1, 5, 3, 0, 5},
             b2[7] = {1, 1, 3},
             exp2[7] = {0, 1};
 
-    poly_inring(a2, b2, 7, 6);
+    poly_GFrem(a2, b2, 7, 6);
     if (!poly_same(a2, exp2, 6)) {
         fail = 1;
-        printf("Failed poly_inring test 2.\n");
+        printf("Failed poly_GFrem test 2.\n");
     }
 
 
@@ -511,7 +511,7 @@ int main (void) {
     fail += test_poly_add();
     fail += test_poly_add_mult();
     fail += test_poly_add_ord();
-    fail += test_poly_inring();
+    fail += test_poly_GFrem();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");

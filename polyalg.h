@@ -52,7 +52,7 @@ void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord);
 // Maps polynomials with integer coefficients to members of a set modulo
 // [mod_p] with coefficients in GF([mod]). [mod] has to be prime and [mod_p]
 // has to be irreducible
-void poly_inring(int64_t p[], const int64_t mod_p[], const int64_t mod, 
+void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod, 
                  const size_t max_ord);
 
 #endif

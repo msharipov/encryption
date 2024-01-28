@@ -152,7 +152,7 @@ void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord) {
 }
 
 
-void poly_inring(int64_t p[], const int64_t mod_p[], const int64_t mod, 
+void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod, 
                  const size_t max_ord) {
 
     int64_t m_copy[max_ord + 1];
