@@ -28,6 +28,9 @@ int64_t poly_leadc(int64_t p[], size_t max_ord);
 // to order [max_ord] match; returns false otherwise.
 bool poly_same(int64_t a[], int64_t b[], size_t max_ord);
 
+// Copies polynomial [p] into [dest] up to order [max_ord].
+void poly_copy(int64_t dest[], int64_t p[], size_t max_ord);
+
 // Converts the coefficients of polynomial [p] to the respective residues
 // in Z_[modulo] arithmetic.
 void poly_mod(int64_t p[], int64_t modulo, size_t max_ord);

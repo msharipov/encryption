@@ -285,6 +285,32 @@ _Bool test_poly_same(void) {
     return fail;
 }
 
+_Bool test_poly_copy(void) {
+    _Bool fail = 0;
+
+    int64_t a0[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9},
+            b0[9] = {0, 1, 2, 0, 1, 2, 0, 1, 2},
+            exp0[9] = {0, 1, 2, 0, 1, 2, 0, 1, 2};
+
+    poly_copy(a0, b0, 8);
+    if (!poly_same(a0, exp0, 8)) {
+        fail = 1;
+        printf("Failed poly_copy test 0.\n");
+    }
+
+    int64_t a1[9] = {0},
+            b1[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9},
+            exp1[9] = {1, 2, 3, 4, 5, 0, 0, 0, 0};
+
+    poly_copy(a1, b1, 4);
+    if (!poly_same(a1, exp1, 4)) {
+        fail = 1;
+        printf("Failed poly_copy test 1.\n");
+    }
+
+    return fail;
+}
+
 _Bool test_poly_mod(void) {
     _Bool fail = 0;
 
@@ -443,6 +469,7 @@ int main (void) {
     fail += test_poly_concl();
     fail += test_poly_mult_inv();
     fail += test_poly_same();
+    fail += test_poly_copy();
     fail += test_poly_mod();
     fail += test_poly_add();
     fail += test_poly_add_mult();

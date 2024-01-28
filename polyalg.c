@@ -103,6 +103,14 @@ bool poly_same(int64_t a[], int64_t b[], size_t max_ord) {
 }
 
 
+void poly_copy(int64_t dest[], int64_t p[], size_t max_ord) {
+
+    for (size_t i = 0; i <= max_ord; i++) {
+        dest[i] = p[i];
+    }
+}
+
+
 void poly_mod(int64_t p[], int64_t modulo, size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
