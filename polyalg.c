@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-uint8_t GF28_mult(uint8_t f, uint8_t g) {
+uint8_t GF28_mult(const uint8_t f, const uint8_t g) {
 
     uint8_t result = 0,
             fxn = f; // fxn = f * x^n
@@ -26,7 +26,7 @@ uint8_t GF28_mult(uint8_t f, uint8_t g) {
 }
 
 
-int64_t poly_concl(int64_t n, int64_t modulo) {
+int64_t poly_concl(const int64_t n, const int64_t modulo) {
 
     int64_t simple_mod = n % modulo;
 
@@ -38,7 +38,7 @@ int64_t poly_concl(int64_t n, int64_t modulo) {
 }
 
 
-int64_t poly_mult_inv(int64_t x, int64_t mod) {
+int64_t poly_mult_inv(const int64_t x, const int64_t mod) {
 
     int64_t b0 = 0, x0 = 0, y0 = 0,
             b1 = x, x1 = 1, y1 = 0,
@@ -67,7 +67,7 @@ int64_t poly_mult_inv(int64_t x, int64_t mod) {
 }
 
 
-int64_t poly_order(int64_t p[], size_t max_ord) {
+int64_t poly_order(const int64_t p[], const size_t max_ord) {
 
     for (size_t i = max_ord; i >= 0; i--) {
         if (p[i]) {
@@ -79,7 +79,7 @@ int64_t poly_order(int64_t p[], size_t max_ord) {
 }
 
 
-int64_t poly_leadc(int64_t p[], size_t max_ord) {
+int64_t poly_leadc(const int64_t p[], const size_t max_ord) {
 
     for (size_t i = max_ord; i > 0; i--) {
         if (p[i]) {
@@ -91,7 +91,7 @@ int64_t poly_leadc(int64_t p[], size_t max_ord) {
 }
 
 
-bool poly_same(int64_t a[], int64_t b[], size_t max_ord) {
+bool poly_same(const int64_t a[], const int64_t b[], const size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
         if (a[i] != b[i]) {
@@ -103,7 +103,7 @@ bool poly_same(int64_t a[], int64_t b[], size_t max_ord) {
 }
 
 
-void poly_copy(int64_t dest[], int64_t p[], size_t max_ord) {
+void poly_copy(int64_t dest[], const int64_t p[], const size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] = p[i];
@@ -111,7 +111,7 @@ void poly_copy(int64_t dest[], int64_t p[], size_t max_ord) {
 }
 
 
-void poly_mod(int64_t p[], int64_t modulo, size_t max_ord) {
+void poly_mod(int64_t p[], const int64_t modulo, const size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
         p[i] = poly_concl(p[i], modulo);
@@ -119,7 +119,7 @@ void poly_mod(int64_t p[], int64_t modulo, size_t max_ord) {
 }
 
 
-void poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
+void poly_add(int64_t dest[], const int64_t add[], const size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += add[i];
@@ -127,7 +127,8 @@ void poly_add(int64_t dest[], int64_t add[], size_t max_ord) {
 }
 
 
-void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord) {
+void poly_add_mult(int64_t dest[], const int64_t add[], const int64_t b, 
+                   const size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
         dest[i] += b*add[i];
@@ -135,7 +136,7 @@ void poly_add_mult(int64_t dest[], int64_t add[], int64_t b, size_t max_ord) {
 }
 
 
-void poly_add_ord(int64_t p[], size_t power, size_t max_ord) {
+void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord) {
     
     if (power == 0) {
         return;
@@ -151,7 +152,8 @@ void poly_add_ord(int64_t p[], size_t power, size_t max_ord) {
 }
 
 
-void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord) {
+void poly_inring(int64_t p[], const int64_t mod_p[], const int64_t mod, 
+                 const size_t max_ord) {
 
     int64_t m_copy[max_ord + 1];
     int64_t p_ord = poly_order(p, max_ord),
