@@ -459,6 +459,22 @@ _Bool test_poly_add_ord(void) {
     return fail;
 }
 
+_Bool test_poly_inring(void) {
+    _Bool fail = 0;
+
+    int64_t a0[5] = {1, 2, 3, 4, 5},
+            b0[5] = {1, 2, 3, 4, 5},
+            exp0[5] = {0};
+
+    poly_inring(a0, b0, 11, 4);
+    if (!poly_same(a0, exp0, 4)) {
+        fail = 1;
+        printf("Failed poly_inring test 0.\n");
+    }
+
+    return fail;
+}
+
 int main (void) {
 
     _Bool fail = 0;
@@ -474,6 +490,7 @@ int main (void) {
     fail += test_poly_add();
     fail += test_poly_add_mult();
     fail += test_poly_add_ord();
+    fail += test_poly_inring();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
