@@ -482,6 +482,17 @@ _Bool test_poly_inring(void) {
         printf("Failed poly_inring test 1.\n");
     }
 
+    int64_t a2[7] = {6, 0, 1, 5, 3, 0, 5},
+            b2[7] = {1, 1, 3},
+            exp2[7] = {0, 1};
+
+    poly_inring(a2, b2, 7, 6);
+    if (!poly_same(a2, exp2, 6)) {
+        fail = 1;
+        printf("Failed poly_inring test 2.\n");
+    }
+
+
     return fail;
 }
 
