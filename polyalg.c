@@ -171,6 +171,7 @@ void poly_inring(int64_t p[], int64_t mod_p[], int64_t mod, size_t max_ord) {
         // coefficient the same as for [p].
 
         poly_add_mult(p, m_copy, -b, max_ord);
+        poly_mod(p, mod, max_ord);
         p_ord = poly_order(p, max_ord);
     }
 
