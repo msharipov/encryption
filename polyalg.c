@@ -181,8 +181,8 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
 }
 
 
-void poly_GFinv(int64_t p[], const int64_t mod_p[], const int64_t mod, 
-                const size_t max_ord) {
+void poly_GFinv(int64_t p_inv[], const int64_t p[], const int64_t mod_p[],
+                const int64_t mod, const size_t max_ord) {
     
 }
 

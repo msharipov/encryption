@@ -58,7 +58,7 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
 // Computes the multiplicative inverse of [p] in the polynomial field over
 // GF([mod]) modulo [mod_p]. [mod] has to be prime and [mod_p] has to be
 // irreducible.
-void poly_GFinv(int64_t p[], const int64_t mod_p[], const int64_t mod, 
-                const size_t max_ord);
+void poly_GFinv(int64_t p_inv[], const int64_t p[], const int64_t mod_p[], 
+                const int64_t mod, const size_t max_ord);
 
 #endif
