@@ -81,13 +81,7 @@ size_t poly_order(const int64_t p[], const size_t max_ord) {
 
 int64_t poly_leadc(const int64_t p[], const size_t max_ord) {
 
-    for (size_t i = max_ord; i > 0; i--) {
-        if (p[i]) {
-            return p[i];
-        }
-    }
-
-    return p[0];
+    return p[poly_order(p, max_ord)];
 }
 
 
