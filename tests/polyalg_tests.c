@@ -90,7 +90,7 @@ _Bool test_poly_order(void) {
     }
 
     out = poly_order(empty, 4);
-    exp = -1;
+    exp = 0;
     if (out != exp) {
         fail = 1;
         printf("Failed poly_order test 3:\n");

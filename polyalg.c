@@ -69,13 +69,13 @@ int64_t poly_mult_inv(const int64_t x, const int64_t mod) {
 
 size_t poly_order(const int64_t p[], const size_t max_ord) {
 
-    for (size_t i = max_ord; i >= 0; i--) {
+    for (size_t i = max_ord; i > 0; i--) {
         if (p[i]) {
             return i;
         }
     }
 
-    return 0;
+    return p[0];
 }
 
 
@@ -154,7 +154,7 @@ void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord) {
 
 void poly_mult(int64_t dest[], const int64_t a[], const int64_t b[],
                const size_t max_ord) {
-    
+
 }
 
 
@@ -162,12 +162,12 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
                 const size_t max_ord) {
 
     int64_t m_copy[max_ord + 1];
-    int64_t p_ord = poly_order(p, max_ord),
-            m_ord = poly_order(mod_p, max_ord);
+    size_t p_ord = poly_order(p, max_ord),
+           m_ord = poly_order(mod_p, max_ord);
 
     while (p_ord >= m_ord && p[p_ord]) {
-        int64_t b = poly_leadc(p, max_ord);
 
+        int64_t b = p[p_ord];
         poly_copy(m_copy, mod_p, max_ord);
         poly_add_ord(m_copy, p_ord - m_ord, max_ord);
 
