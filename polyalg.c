@@ -165,7 +165,7 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
     int64_t p_ord = poly_order(p, max_ord),
             m_ord = poly_order(mod_p, max_ord);
 
-    while (p_ord >= m_ord) {
+    while (p_ord >= m_ord && p[p_ord]) {
         int64_t b = poly_leadc(p, max_ord);
 
         poly_copy(m_copy, mod_p, max_ord);
@@ -180,7 +180,7 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
 
         poly_add_mult(p, m_copy, -b, max_ord);
         poly_mod(p, mod, max_ord);
-        p_ord = poly_order(p, max_ord);
+        p_ord = poly_order(p, p_ord);
     }
 
     poly_mod(p, mod, max_ord);
