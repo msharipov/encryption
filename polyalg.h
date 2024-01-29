@@ -17,8 +17,8 @@ int64_t poly_concl(const int64_t n, const int64_t modulo);
 int64_t poly_mult_inv(const int64_t x, const int64_t mod);
 
 // Returns the order of the highest non-zero term from x^0 to x^[max_ord],
-// inclusively. Returns -1 if all coefficients are 0.
-int64_t poly_order(const int64_t p[], const size_t max_ord);
+// inclusively. Returns 0 if all coefficients are 0.
+size_t poly_order(const int64_t p[], const size_t max_ord);
 
 // Returns the leading coefficient of [p] up to the order of [max_ord].
 // Returns 0 if all coefficients are 0.
@@ -48,6 +48,11 @@ void poly_add_mult(int64_t dest[], const int64_t add[], const int64_t b,
 // Multiplies the polynomial [p](x) by x^[power]. Requires that [power] >= 0 
 // and that the size of [p] must be at least [max_ord]+[power]+1. 
 void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord);
+
+// Multiplies polynomials [a] and [b]. Result is stored in [dest], the size
+// of which must be at least [max_ord]*2+1.
+void poly_mult(int64_t dest[], const int64_t a[], const int64_t b[],
+               const size_t max_ord);
 
 // Maps polynomials with integer coefficients to members of a set modulo
 // [mod_p] with coefficients in GF([mod]). [mod] has to be prime and [mod_p]
