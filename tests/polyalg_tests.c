@@ -492,6 +492,15 @@ _Bool test_poly_GFrem(void) {
         printf("Failed poly_GFrem test 2.\n");
     }
 
+    int64_t a3[16] = {0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1},
+            b3[16] = {1, 1, 0, 1, 1, 0, 0, 0, 1},
+            exp3[16] = {1, 1, 1, 1, 1, 1, 1};
+
+    poly_GFrem(a3, b3, 2, 15);
+    if (!poly_same(a3, exp3, 7)) {
+        fail = 1;
+        printf("Failed poly_GFrem test 3.\n");
+    }
 
     return fail;
 }
