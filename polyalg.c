@@ -213,7 +213,7 @@ void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[],
     size_t p_ord = poly_order(p, max_ord),
            m_ord = poly_order(mod_p, max_ord);
 
-    for (size_t i = 0; i < max_ord; i++) {
+    for (size_t i = 0; i <= max_ord; i++) {
         q[i] = 0;
     }
 
@@ -226,7 +226,7 @@ void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[],
         // At this point, [p] and [m_copy] should have the same order.
 
         b *= poly_mult_inv(poly_concl(poly_leadc(m_copy, max_ord), mod), mod);
-        q[p_ord - m_ord] = b;
+        q[p_ord - m_ord] = poly_concl(b, mod);
 
         // At this point, multiplying [m_copy] by [b] should make the leading
         // coefficient the same as for [p].
