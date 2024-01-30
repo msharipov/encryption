@@ -3,6 +3,15 @@
 #include <stdint.h>
 #include "../polyalg.h"
 
+void print_array(int64_t a[], size_t n) {
+    if (n > 1) {
+        for (size_t i = 0; i < n - 1; i++) {
+            printf("%li, ", a[i]);
+        }
+    }
+    printf("%li\n", a[n-1]);    
+}
+
 _Bool test_GF28mult(void) {
     _Bool fail = 0;
     uint8_t out, exp;
@@ -426,6 +435,51 @@ _Bool test_poly_add_mult(void) {
     return fail;
 }
 
+_Bool test_poly_mult(void) {
+    _Bool fail = 0;
+
+    int64_t a0[8] = {0, 1, 2, 3, 4, 5, 6, 7},
+            b0[8] = {0},
+            c0[15] = {0},
+            exp0[15] = {0};
+
+    poly_mult(c0, a0, b0, 7);
+    if (!poly_same(c0, exp0, 14)) {
+        fail = 1;
+        printf("Failed poly_mult test 0.\n");
+        printf("out: "), print_array(a0, 15);
+        printf("exp: "), print_array(exp0, 15);
+    }
+
+    int64_t a1[8] = {0},
+            b1[8] = {0, 1, 2, 3, 4, 5, 6, 7},
+            c1[15] = {0},
+            exp1[15] = {0};
+
+    poly_mult(c1, a1, b1, 7);
+    if (!poly_same(c1, exp1, 14)) {
+        fail = 1;
+        printf("Failed poly_mult test 1.\n");
+        printf("out: "), print_array(c1, 15);
+        printf("exp: "), print_array(exp1, 15);
+    }
+
+    int64_t a2[8] = {3, -2, 0, 4},
+            b2[8] = {1, 0, -2},
+            c2[15] = {0},
+            exp2[15] = {3, -2, -6, 8, 0, -8};
+
+    poly_mult(c2, a2, b2, 7);
+    if (!poly_same(c2, exp2, 14)) {
+        fail = 1;
+        printf("Failed poly_mult test 2.\n");
+        printf("out: "), print_array(c2, 15);
+        printf("exp: "), print_array(exp2, 15);
+    }
+
+    return fail;
+}
+
 _Bool test_poly_add_ord(void) {
     _Bool fail = 0;
 
@@ -519,6 +573,7 @@ int main (void) {
     fail += test_poly_mod();
     fail += test_poly_add();
     fail += test_poly_add_mult();
+    fail += test_poly_mult();
     fail += test_poly_add_ord();
     fail += test_poly_GFrem();
 
