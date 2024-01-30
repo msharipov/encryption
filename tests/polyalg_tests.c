@@ -579,6 +579,32 @@ _Bool test_poly_GFrem(void) {
     return fail;
 }
 
+_Bool test_poly_GFdiv(void) {
+    _Bool fail = 0;
+
+    int64_t a0[5] = {1, 2, 3, 4, 5},
+            b0[5] = {1, 2, 3, 4, 5},
+            q0[5] = {0},
+            expa0[5] = {0},
+            expq0[5] = {1};
+
+    poly_GFdiv(q0, a0, b0, 11, 4);
+    if (!poly_same(a0, expa0, 4)) {
+        fail = 1;
+        printf("Failed poly_GFdiv test 0.\n");
+        printf("a: "), print_array(a0, 5);
+        printf("expa: "), print_array(expa0, 5);
+    }
+    if (!poly_same(q0, expq0, 4)) {
+        fail = 1;
+        printf("Failed poly_GFdiv test 0.\n");
+        printf("q: "), print_array(q0, 5);
+        printf("expq: "), print_array(expq0, 5);
+    }
+    
+    return fail;
+}
+
 int main (void) {
 
     _Bool fail = 0;
@@ -596,6 +622,7 @@ int main (void) {
     fail += test_poly_mult();
     fail += test_poly_add_ord();
     fail += test_poly_GFrem();
+    fail += test_poly_GFdiv();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
