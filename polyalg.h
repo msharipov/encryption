@@ -28,6 +28,12 @@ int64_t poly_leadc(const int64_t p[], const size_t max_ord);
 // to order [max_ord] match; returns false otherwise.
 bool poly_same(const int64_t a[], const int64_t b[], const size_t max_ord);
 
+// Compares two polynomials [a] and [b] over GF([mod]). Returns true if all
+// coefficients up to order [max_ord] are congruent modulo [mod]; returns 
+// false otherwise.
+bool poly_GFsame(const int64_t a[], const int64_t b[], const int64_t mod, 
+                 const size_t max_ord);
+
 // Copies polynomial [p] into [dest] up to order [max_ord].
 void poly_copy(int64_t dest[], const int64_t p[], const size_t max_ord);
 

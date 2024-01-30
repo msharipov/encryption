@@ -301,6 +301,39 @@ _Bool test_poly_same(void) {
     return fail;
 }
 
+_Bool test_poly_GFsame(void) {
+    _Bool fail = 0;
+    int64_t out, exp;
+
+    int64_t a0[6] = {5, 3, -7, 1, 3, 2};
+    out = poly_GFsame(a0, a0, 7, 5);
+    exp = 1;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_GFsame test 0:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    int64_t a1[6] = {12, 17, 0, -6, 10, -12};
+    out = poly_GFsame(a0, a1, 7, 5);
+    exp = 1;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_GFsame test 1:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_GFsame(a0, a1, 9, 5);
+    exp = 0;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_GFsame test 2:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    return fail;
+}
+
 _Bool test_poly_copy(void) {
     _Bool fail = 0;
 
@@ -602,6 +635,26 @@ _Bool test_poly_GFdiv(void) {
         printf("expq: "), print_array(expq0, 5);
     }
     
+    int64_t a1[5] = {0},
+            b1[5] = {6, 2, -12, 1},
+            q1[5] = {0},
+            expa1[5] = {0},
+            expq1[5] = {0};
+
+    poly_GFdiv(q1, a1, b1, 11, 4);
+    if (!poly_same(a1, expa1, 4)) {
+        fail = 1;
+        printf("Failed poly_GFdiv test 1.\n");
+        printf("a: "), print_array(a1, 5);
+        printf("expa: "), print_array(expa1, 5);
+    }
+    if (!poly_same(q1, expq1, 4)) {
+        fail = 1;
+        printf("Failed poly_GFdiv test 0.\n");
+        printf("q: "), print_array(q1, 5);
+        printf("expq: "), print_array(expq1, 5);
+    }
+
     return fail;
 }
 
@@ -615,6 +668,7 @@ int main (void) {
     fail += test_poly_concl();
     fail += test_poly_mult_inv();
     fail += test_poly_same();
+    fail += test_poly_GFsame();
     fail += test_poly_copy();
     fail += test_poly_mod();
     fail += test_poly_add();

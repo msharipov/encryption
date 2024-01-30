@@ -97,6 +97,19 @@ bool poly_same(const int64_t a[], const int64_t b[], const size_t max_ord) {
 }
 
 
+bool poly_GFsame(const int64_t a[], const int64_t b[], const int64_t mod, 
+                 const size_t max_ord) {
+    
+    for (size_t i = 0; i <= max_ord; i++) {
+        if (poly_concl(a[i], mod) != poly_concl(b[i], mod)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 void poly_copy(int64_t dest[], const int64_t p[], const size_t max_ord) {
 
     for (size_t i = 0; i <= max_ord; i++) {
