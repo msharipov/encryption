@@ -164,7 +164,7 @@ void poly_mult(int64_t dest[], const int64_t a[], const int64_t b[],
         size_t end_i = (b_ord < k) ? b_ord : k;
 
         for (size_t i = start_i; i <= end_i; i++) {
-            c += a[i-k]*b[k];
+            c += a[k-i]*b[i];
         }
 
         dest[k] = c;
