@@ -477,6 +477,19 @@ _Bool test_poly_mult(void) {
         printf("exp: "), print_array(exp2, 15);
     }
 
+    int64_t a3[10] = {8, 4, 1, 0, -2, 6, 5},
+            b3[10] = {1, -2, 0, -9, 8, 5, 3},
+            c3[20] = {0},
+            exp3[20] = {8, -12, -7, -74, 26, 73, 45, 25, -67, -7, 64, 43, 15};
+
+    poly_mult(c3, a3, b3, 9);
+    if (!poly_same(c3, exp3, 19)) {
+        fail = 1;
+        printf("Failed poly_mult test 3.\n");
+        printf("out: "), print_array(c3, 19);
+        printf("exp: "), print_array(exp3, 19);
+    }
+
     return fail;
 }
 
