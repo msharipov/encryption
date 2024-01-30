@@ -80,7 +80,7 @@ size_t poly_order(const int64_t p[], const size_t max_ord) {
         }
     }
 
-    return p[0];
+    return 0;
 }
 
 
@@ -296,7 +296,7 @@ void poly_GFinv(int64_t p_inv[], const int64_t p[], const int64_t mod_p[],
     }
     poly_copy(wide_mod_p, mod_p, max_ord);
 
-    while (poly_leadc(r2, max_ord)) {
+    while (poly_leadc(r2, max_ord) != 0) {
         
         // row0 = row1, row1 = row 2
         poly_copy(r0, r1, max_ord);
@@ -326,7 +326,7 @@ void poly_GFinv(int64_t p_inv[], const int64_t p[], const int64_t mod_p[],
     }
 
     // If gcd(p, mod_p) == 1, inverse exists
-    if (!poly_order(p, max_ord) && p[0] == 1) {
+    if (poly_order(r1, max_ord) == 0 && r1[0] == 1) {
         poly_copy(p_inv, s1, max_ord);
     }
 
