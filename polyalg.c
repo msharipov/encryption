@@ -261,20 +261,76 @@ void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[],
 void poly_GFinv(int64_t p_inv[], const int64_t p[], const int64_t mod_p[],
                 const int64_t mod, const size_t max_ord) {
     
-    int64_t r0[max_ord+1],
-            s0[max_ord+1],
-            t0[max_ord+1],
-            r1[max_ord+1],
-            s1[max_ord+1],
-            t1[max_ord+1],
-            r2[max_ord+1],
-            s2[max_ord+1],
-            t2[max_ord+1],
-            q[max_ord+1];
+    int64_t r0[max_ord + 1],
+            r1[max_ord + 1],
+            r2[max_ord + 1],
+            s0[max_ord + 1],
+            s1[max_ord + 1],
+            s2[max_ord + 1],
+            t0[max_ord + 1],
+            t1[max_ord + 1],
+            t2[max_ord + 1],
+            q[max_ord + 1],
+            qs[2*max_ord + 1],
+            qt[2*max_ord + 1],
+            wide_mod_p[2*max_ord + 1];
 
-    while (poly_leadc(r0, max_ord)) {
+    poly_copy(r1, p, max_ord);
+    poly_GFrem(r1, mod_p, mod, max_ord);
+    poly_copy(r2, mod_p, max_ord);
 
+    for (size_t i = 0; i <= max_ord; i++) {
+        s1[i] = 0;
+        s2[i] = 0;
+        t1[i] = 0;
+        t2[i] = 0;
+        p_inv[i] = 0;
     }
+    s1[0] = 1;
+    t2[0] = 1;
+
+    for (size_t i = 0; i <= 2*max_ord; i++) {
+        qs[i] = 0;
+        qt[i] = 0;
+        wide_mod_p[i] = 0;
+    }
+    poly_copy(wide_mod_p, mod_p, max_ord);
+
+    while (poly_leadc(r2, max_ord)) {
+        
+        // row0 = row1, row1 = row 2
+        poly_copy(r0, r1, max_ord);
+        poly_copy(s0, s1, max_ord);
+        poly_copy(t0, t1, max_ord);
+        poly_copy(r1, r2, max_ord);
+        poly_copy(s1, s2, max_ord);
+        poly_copy(t1, t2, max_ord);
+
+        // r2 = r0 % r1, q = r0 / r1
+        poly_copy(r2, r0, max_ord);
+        poly_GFdiv(q, r2, r1, mod, max_ord);
+
+        // s2 = s0 - q*s1
+        poly_copy(s2, s0, max_ord);
+        poly_mult(qs, q, s1, max_ord);
+        poly_GFrem(qs, wide_mod_p, mod, 2*max_ord);
+        poly_add_mult(s2, qs, -1, max_ord);
+        poly_GFrem(s2, mod_p, mod, max_ord);
+
+        // t2 = t0 - q*t1
+        poly_copy(t2, t0, max_ord);
+        poly_mult(qt, q, t1, max_ord);
+        poly_GFrem(qt, wide_mod_p, mod, 2*max_ord);
+        poly_add_mult(t2, qt, -1, max_ord);
+        poly_GFrem(t2, mod_p, mod, max_ord);
+    }
+
+    // If gcd(p, mod_p) == 1, inverse exists
+    if (!poly_order(p, max_ord) && p[0] == 1) {
+        poly_copy(p_inv, s1, max_ord);
+    }
+
+    // If there's no inverse, leave [p_inv] as all 0's.
 }
 
 #endif

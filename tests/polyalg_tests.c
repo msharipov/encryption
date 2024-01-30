@@ -718,6 +718,25 @@ _Bool test_poly_GFdiv(void) {
     return fail;
 }
 
+_Bool test_poly_GFinv(void) {
+    _Bool fail = 0;
+
+    int64_t a0[5] = {0, 1},
+            b0[5] = {1, 1, 1},
+            c0[5] = {0},
+            exp0[5] = {1, 1};
+
+    poly_GFinv(c0, a0, b0, 2, 4);
+    if (!poly_same(c0, exp0, 4)) {
+        fail = 1;
+        printf("Failed poly_GFinv test 0.\n");
+        printf("out: "), print_array(c0, 5);
+        printf("exp: "), print_array(exp0, 5);
+    }
+
+    return fail;
+}
+
 int main (void) {
 
     _Bool fail = 0;
@@ -736,6 +755,7 @@ int main (void) {
     fail += test_poly_mult();
     fail += test_poly_add_ord();
     fail += test_poly_GFrem();
+    fail += test_poly_GFdiv();
     fail += test_poly_GFdiv();
 
     if (!fail) {
