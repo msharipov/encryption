@@ -46,7 +46,7 @@ void poly_add_mult(int64_t dest[], const int64_t add[], const int64_t b,
                    const size_t max_ord);
 
 // Multiplies the polynomial [p](x) by x^[power]. Requires that [power] >= 0 
-// and that the size of [p] must be at least [max_ord]+[power]+1. 
+// and that the size of [p] must be at least [max_ord]+[power]+1.
 void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord);
 
 // Multiplies polynomials [a] and [b]. Result is stored in [dest], the size
@@ -54,11 +54,17 @@ void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord);
 void poly_mult(int64_t dest[], const int64_t a[], const int64_t b[],
                const size_t max_ord);
 
-// Maps polynomials with integer coefficients to members of a set modulo
-// [mod_p] with coefficients in GF([mod]). [mod] has to be prime and [mod_p]
-// has to be irreducible.
+// Changes [p] to be its own remainder from division by mod_p [mod_p] with
+// coefficients in GF([mod]). [mod] has to be prime and [mod_p] has to be
+// irreducible.
 void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod, 
                  const size_t max_ord);
+
+// Divides polynomial [p] by [mod_p] over GF([mod]). The quotient is stored
+// in [q] and the remainder - in [p]. [mod] has to be prime, [mod_p] has to
+// be irreducible
+void poly_GFdiv(int64_t p[], int64_t q[], const int64_t mod_p[], 
+                const int64_t mod, const size_t max_ord);
 
 // Computes the multiplicative inverse of [p] in the polynomial field over
 // GF([mod]) modulo [mod_p]. [mod] has to be prime and [mod_p] has to be
