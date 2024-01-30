@@ -148,6 +148,31 @@ void poly_add_ord(int64_t p[], const size_t power, const size_t max_ord) {
 
 void poly_mult(int64_t dest[], const int64_t a[], const int64_t b[],
                const size_t max_ord) {
+    
+    size_t a_ord = poly_order(a, max_ord),
+           b_ord = poly_order(b, max_ord);
+
+    for (size_t k = 0; k <= a_ord + b_ord; k++) {
+
+        // c[k] = sum(a[i-k]*b[i]) over i in [0,k]
+        int64_t c = 0;
+
+        // k-i <= a_ord and i >= 0
+        size_t start_i = (k > a_ord) ? k - a_ord : 0;
+
+        // k-i >= 0 and i <= b_ord
+        size_t end_i = (b_ord < k) ? b_ord : k;
+
+        for (size_t i = start_i; i <= end_i; i++) {
+            c += a[i-k]*b[k];
+        }
+
+        dest[k] = c;
+    }
+
+    for (size_t k = a_ord + b_ord + 1; k <= 2*max_ord; k++) {
+        dest[k] = 0;
+    }
 
 }
 
