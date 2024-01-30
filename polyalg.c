@@ -206,7 +206,7 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
 }
 
 
-void poly_GFdiv(int64_t p[], int64_t q[], const int64_t mod_p[], 
+void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[], 
                 const int64_t mod, const size_t max_ord) {
 
     int64_t m_copy[max_ord + 1];

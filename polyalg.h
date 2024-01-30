@@ -63,7 +63,7 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
 // Divides polynomial [p] by [mod_p] over GF([mod]). The quotient is stored
 // in [q] and the remainder - in [p]. [mod] has to be prime, [mod_p] has to
 // be irreducible.
-void poly_GFdiv(int64_t p[], int64_t q[], const int64_t mod_p[], 
+void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[], 
                 const int64_t mod, const size_t max_ord);
 
 // Computes the multiplicative inverse of [p] in the polynomial field over
