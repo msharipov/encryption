@@ -4,11 +4,18 @@
 #include "../polyalg.h"
 
 void print_array(int64_t a[], size_t n) {
+
+    if (n == 0) {
+        printf("\n");
+        return;
+    }
+
     if (n > 1) {
         for (size_t i = 0; i < n - 1; i++) {
             printf("%li, ", a[i]);
         }
     }
+
     printf("%li\n", a[n-1]);    
 }
 
@@ -486,8 +493,8 @@ _Bool test_poly_mult(void) {
     if (!poly_same(c3, exp3, 19)) {
         fail = 1;
         printf("Failed poly_mult test 3.\n");
-        printf("out: "), print_array(c3, 19);
-        printf("exp: "), print_array(exp3, 19);
+        printf("out: "), print_array(c3, 20);
+        printf("exp: "), print_array(exp3, 20);
     }
 
     return fail;
