@@ -61,14 +61,12 @@ void poly_mult(int64_t dest[], const int64_t a[], const int64_t b[],
                const size_t max_ord);
 
 // Changes [p] to be its own remainder from division by mod_p [mod_p] with
-// coefficients in GF([mod]). [mod] has to be prime and [mod_p] has to be
-// irreducible.
+// coefficients in GF([mod]). [mod] has to be prime.
 void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod, 
                  const size_t max_ord);
 
 // Divides polynomial [p] by [mod_p] over GF([mod]). The quotient is stored
-// in [q] and the remainder - in [p]. [mod] has to be prime, [mod_p] has to
-// be irreducible.
+// in [q] and the remainder - in [p]. [mod] has to be prime.
 void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[], 
                 const int64_t mod, const size_t max_ord);
 
