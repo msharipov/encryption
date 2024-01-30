@@ -44,6 +44,13 @@ int64_t poly_mult_inv(const int64_t x, const int64_t mod) {
             b1 = x, x1 = 1, y1 = 0,
             b2 = mod, x2 = 0, y2 = 1;
 
+    if (mod < 0) {
+        b1 = -b1;
+        b2 = -b2;
+    }
+
+    b1 = poly_concl(b1, mod);
+
     while (b2) {
         b0 = b1;
         b1 = b2;
@@ -255,7 +262,21 @@ void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[],
 
 void poly_GFinv(int64_t p_inv[], const int64_t p[], const int64_t mod_p[],
                 const int64_t mod, const size_t max_ord) {
-    // WIP
+    
+    int64_t r0[max_ord+1],
+            s0[max_ord+1],
+            t0[max_ord+1],
+            r1[max_ord+1],
+            s1[max_ord+1],
+            t1[max_ord+1],
+            r2[max_ord+1],
+            s2[max_ord+1],
+            t2[max_ord+1],
+            q[max_ord+1];
+
+    while (poly_leadc(r0, max_ord)) {
+
+    }
 }
 
 #endif

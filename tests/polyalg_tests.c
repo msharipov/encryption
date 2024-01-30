@@ -263,6 +263,46 @@ _Bool test_poly_mult_inv(void) {
         printf("Failed poly_mult_inv test 5:\n");
         printf("Expected %li but got %li\n", exp, out);
     }
+    
+    out = poly_mult_inv(-18, 24);
+    exp = -6;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_mult_inv test 6:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_mult_inv(9, -3);
+    exp = -3;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_mult_inv test 7:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_mult_inv(-25, -15);
+    exp = -5;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_mult_inv test 8:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_mult_inv(-63, 27);
+    exp = -9;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_mult_inv test 9:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
+
+    out = poly_mult_inv(-41, 13);
+    exp = 6;
+    if (out != exp) {
+        fail = 1;
+        printf("Failed poly_mult_inv test 10:\n");
+        printf("Expected %li but got %li\n", exp, out);
+    }
 
     return fail;
 }
