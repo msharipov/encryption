@@ -756,7 +756,7 @@ int main (void) {
     fail += test_poly_add_ord();
     fail += test_poly_GFrem();
     fail += test_poly_GFdiv();
-    fail += test_poly_GFdiv();
+    fail += test_poly_GFinv();
 
     if (!fail) {
         printf("\x1b[32mAll tests passed successfully!\x1b[0m\n");
