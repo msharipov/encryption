@@ -734,6 +734,45 @@ _Bool test_poly_GFinv(void) {
         printf("exp: "), print_array(exp0, 5);
     }
 
+    int64_t a1[5] = {1, 1, 1},
+            b1[5] = {1, 1, 1},
+            c1[5] = {0},
+            exp1[5] = {0};
+
+    poly_GFinv(c1, a1, b1, 2, 4);
+    if (!poly_same(c1, exp1, 4)) {
+        fail = 1;
+        printf("Failed poly_GFinv test 1.\n");
+        printf("out: "), print_array(c1, 5);
+        printf("exp: "), print_array(exp1, 5);
+    }
+
+    int64_t a2[5] = {1, 1, 0, 1, 1},
+            b2[5] = {1, 1, 1},
+            c2[5] = {0},
+            exp2[5] = {0};
+
+    poly_GFinv(c2, a2, b2, 2, 4);
+    if (!poly_same(c2, exp2, 4)) {
+        fail = 1;
+        printf("Failed poly_GFinv test 2.\n");
+        printf("out: "), print_array(c2, 5);
+        printf("exp: "), print_array(exp2, 5);
+    }
+
+    int64_t a3[5] = {5, 0, 1, 5, 2},
+            b3[5] = {6, 4, 0, 1},
+            c3[5] = {0},
+            exp3[5] = {3, 5, 2};
+
+    poly_GFinv(c3, a3, b3, 7, 4);
+    if (!poly_same(c3, exp3, 4)) {
+        fail = 1;
+        printf("Failed poly_GFinv test 3.\n");
+        printf("out: "), print_array(c3, 5);
+        printf("exp: "), print_array(exp3, 5);
+    }
+
     return fail;
 }
 
