@@ -40,9 +40,9 @@ int64_t poly_concl(const int64_t n, const int64_t modulo) {
 
 int64_t poly_mult_inv(const int64_t x, const int64_t mod) {
 
-    int64_t b0 = 0, x0 = 0, y0 = 0,
-            b1 = poly_concl(x, mod), x1 = 1, y1 = 0,
-            b2 = mod, x2 = 0, y2 = 1;
+    int64_t b0 = 0, x0 = 0,
+            b1 = poly_concl(x, mod), x1 = 1,
+            b2 = mod, x2 = 0;
 
     if (mod < 0) {
         b1 = -b1;
@@ -54,12 +54,9 @@ int64_t poly_mult_inv(const int64_t x, const int64_t mod) {
         b1 = b2;
         x0 = x1;
         x1 = x2;
-        y0 = y1;
-        y1 = y2;
 
         b2 = b0 % b1;
         x2 = x0 - (b0/b1)*x1;
-        y2 = y0 - (b0/b1)*y1;
     }
 
     if (b1 > 1) {
