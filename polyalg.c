@@ -95,7 +95,7 @@ void GF216_longdiv(uint16_t * q, uint16_t * r, const uint16_t f,
 }
 
 
-uint8_t GF28_inv(uint8_t p) {
+uint8_t GF28_inv(const uint8_t p) {
 
     uint16_t r0 = 0,     s0 = 0,
              r1 = p,     s1 = 1,

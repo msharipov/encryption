@@ -17,6 +17,9 @@ void GF28_longdiv(uint8_t * q, uint8_t * r, const uint8_t f, const uint8_t g);
 void GF216_longdiv(uint16_t * q, uint16_t * r, const uint16_t f, 
                    const uint16_t g);
 
+// Returns the multiplicative inverse of [p] in GF(2^8).
+uint8_t GF28_inv(const uint8_t p);
+
 // Returns the congruence class of n in Z_[modulo] arithmetic
 int64_t poly_concl(const int64_t n, const int64_t modulo);
 
