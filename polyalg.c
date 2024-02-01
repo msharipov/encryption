@@ -38,22 +38,22 @@ void GF28_longdiv(uint8_t * q, uint8_t * r, const uint8_t f, const uint8_t g) {
     *q = 0;
     *r = f;
 
-    while (g >> g_ord + 1) {
+    while (g >> (g_ord + 1)) {
         g_ord++;
     }
 
-    while (f >> f_ord + 1) {
+    while (f >> (f_ord + 1)) {
         f_ord++;
     }
 
     // Runs while [f] is at least same order as [g]
     while (f_ord >= g_ord && *r) {
 
-        *r ^= g << f_ord - g_ord;
-        *q += 1U << f_ord - g_ord;
+        *r ^= g << (f_ord - g_ord);
+        *q += 1U << (f_ord - g_ord);
 
         f_ord = 0;
-        while (*r >> f_ord + 1) {
+        while (*r >> (f_ord + 1)) {
             f_ord++;
         }
     }

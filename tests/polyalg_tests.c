@@ -74,6 +74,27 @@ _Bool test_GF28mult(void) {
     return fail;
 }
 
+_Bool test_GF28_longdiv(void) {
+    _Bool fail = 0;
+    uint8_t r, q, exp_r, exp_q;
+
+    GF28_longdiv(&q, &r, 0xB7, 0x35);
+    exp_q = 0x06;
+    exp_r = 0x09;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 0:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 0:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    return fail;
+}
+
 _Bool test_poly_order(void) {
     _Bool fail = 0;
     int64_t out, exp;
@@ -781,6 +802,7 @@ int main (void) {
     _Bool fail = 0;
 
     fail += test_GF28mult();
+    fail += test_GF28_longdiv();
     fail += test_poly_order();
     fail += test_poly_leadc();
     fail += test_poly_concl();
