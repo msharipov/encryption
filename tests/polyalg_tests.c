@@ -67,7 +67,7 @@ _Bool test_GF28_mult(void) {
     exp = 0b01111111;
     if (out != exp) {
         fail = 1;
-        printf("Failed multiplication in GF(2^8) test 10:\n");
+        printf("Failed multiplication in GF(2^8) test 5:\n");
         printf("Expected %x but got %x\n", exp, out);
     }
 
@@ -131,6 +131,98 @@ _Bool test_GF28_longdiv(void) {
     if (q != exp_q) {
         fail = 1;
         printf("Failed GF28_longdiv test 3:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    return fail;
+}
+
+_Bool test_GF216_longdiv(void) {
+
+    _Bool fail = 0;
+    uint16_t r, q, exp_r, exp_q;
+
+    GF216_longdiv(&q, &r, 0x00B7, 0x0035);
+    exp_q = 0x0006;
+    exp_r = 0x0009;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 0:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 0:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    GF216_longdiv(&q, &r, 0xFFFF, 0xFFFF);
+    exp_q = 0x0001;
+    exp_r = 0x0000;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 1:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 1:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    GF216_longdiv(&q, &r, 0xFFFF, 0x0001);
+    exp_q = 0xFFFF;
+    exp_r = 0x0000;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 2:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 2:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    GF216_longdiv(&q, &r, 0x0000, 0xABCD);
+    exp_q = 0x0000;
+    exp_r = 0x0000;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 3:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 3:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    GF216_longdiv(&q, &r, 0xE52F, 0x0BE2);
+    exp_q = 0x0018;
+    exp_r = 0x041F;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 4:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 4:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    GF216_longdiv(&q, &r, 0x011B, 0x004E);
+    exp_q = 0x0004;
+    exp_r = 0x0023;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 5:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF216_longdiv test 5:\n");
         printf("Expected q:%x but got %x\n", exp_q, q);
     }
 
@@ -845,6 +937,7 @@ int main (void) {
 
     fail += test_GF28_mult();
     fail += test_GF28_longdiv();
+    fail += test_GF216_longdiv();
     fail += test_poly_order();
     fail += test_poly_leadc();
     fail += test_poly_concl();
