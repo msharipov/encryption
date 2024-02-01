@@ -92,6 +92,48 @@ _Bool test_GF28_longdiv(void) {
         printf("Expected q:%x but got %x\n", exp_q, q);
     }
 
+    GF28_longdiv(&q, &r, 0x6D, 0x23);
+    exp_q = 0x03;
+    exp_r = 0x08;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 1:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 1:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    GF28_longdiv(&q, &r, 0x7B, 0x01);
+    exp_q = 0x7B;
+    exp_r = 0x00;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 2:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 2:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
+    GF28_longdiv(&q, &r, 0x4F, 0x4F);
+    exp_q = 0x01;
+    exp_r = 0x00;
+    if (r != exp_r) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 3:\n");
+        printf("Expected r:%x but got %x\n", exp_r, r);
+    }
+    if (q != exp_q) {
+        fail = 1;
+        printf("Failed GF28_longdiv test 3:\n");
+        printf("Expected q:%x but got %x\n", exp_q, q);
+    }
+
     return fail;
 }
 
