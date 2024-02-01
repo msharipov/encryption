@@ -60,6 +60,40 @@ void GF28_longdiv(uint8_t * q, uint8_t * r, const uint8_t f, const uint8_t g) {
 }
 
 
+void GF216_longdiv(uint16_t * q, uint16_t * r, const uint16_t f, 
+                   const uint16_t g) {
+    
+    if (g == 0) {
+        return;
+    }
+
+    uint8_t f_ord = 0,
+            g_ord = 0;
+    
+    *q = 0;
+    *r = f;
+
+    while (g >> (g_ord + 1)) {
+        g_ord++;
+    }
+
+    while (f >> (f_ord + 1)) {
+        f_ord++;
+    }
+
+    // Runs while [f] is at least same order as [g]
+    while (f_ord >= g_ord && *r) {
+
+        *r ^= g << (f_ord - g_ord);
+        *q += 1U << (f_ord - g_ord);
+
+        f_ord = 0;
+        while (*r >> (f_ord + 1)) {
+            f_ord++;
+        }
+    }
+}
+
 int64_t poly_concl(const int64_t n, const int64_t modulo) {
 
     int64_t simple_mod = n % modulo;
