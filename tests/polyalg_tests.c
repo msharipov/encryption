@@ -19,7 +19,7 @@ void print_array(int64_t a[], size_t n) {
     printf("%li\n", a[n-1]);    
 }
 
-_Bool test_GF28mult(void) {
+_Bool test_GF28_mult(void) {
     _Bool fail = 0;
     uint8_t out, exp;
 
@@ -843,7 +843,7 @@ int main (void) {
 
     _Bool fail = 0;
 
-    fail += test_GF28mult();
+    fail += test_GF28_mult();
     fail += test_GF28_longdiv();
     fail += test_poly_order();
     fail += test_poly_leadc();
