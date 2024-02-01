@@ -94,6 +94,32 @@ void GF216_longdiv(uint16_t * q, uint16_t * r, const uint16_t f,
     }
 }
 
+
+uint8_t GF28_inv(uint8_t p) {
+
+    uint16_t r0 = 0,     s0 = 0,
+             r1 = p,     s1 = 1,
+             r2 = 0x11B, s2 = 0,
+             q = 0;
+
+    while (r2) {
+
+        r0 = r1;
+        s0 = s1;
+        r1 = r2;
+        s1 = s2;
+
+        GF216_longdiv(&q, &r2, r0, r1);
+        // 8-bit arithmetic is sufficient here because q can only exceed 0xFF
+        // when p = 1, in which case the function returns the correct value
+        // before the incorrectly computed s2 is involved.
+        s2 = s0 ^ GF28_mult(q, s1);
+    }
+
+    return s1;
+}
+
+
 int64_t poly_concl(const int64_t n, const int64_t modulo) {
 
     int64_t simple_mod = n % modulo;
