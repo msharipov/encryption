@@ -8,6 +8,10 @@
 // Returns the product as a byte where MSB is the coefficient of x^7
 uint8_t GF28_mult(const uint8_t f, const uint8_t g);
 
+// Carries out long division of [f] by [g] in GF(2^8). The quotient is stored
+// in [q] and the remainder in [r]. 
+void GF28_longdiv(uint8_t * q, uint8_t * r, const uint8_t f, const uint8_t g);
+
 // Returns the congruence class of n in Z_[modulo] arithmetic
 int64_t poly_concl(const int64_t n, const int64_t modulo);
 
