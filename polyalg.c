@@ -46,7 +46,6 @@ void GF28_longdiv(uint8_t * q, uint8_t * r, const uint8_t f, const uint8_t g) {
         f_ord++;
     }
 
-    // Runs while [f] is at least same order as [g]
     while (f_ord >= g_ord && *r) {
 
         *r ^= g << (f_ord - g_ord);
