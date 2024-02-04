@@ -314,12 +314,20 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
 }
 
 
-void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[], 
+uint8_t poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[], 
                 const int64_t mod, const size_t max_ord) {
 
     int64_t m_copy[max_ord + 1];
     size_t p_ord = poly_order(p, max_ord),
-           m_ord = poly_order(mod_p, max_ord);
+           m_ord = poly_order(mod_p, max_ord);\
+
+    if (m_ord == 0 && mod_p[0] == 0) {
+        return 1;
+    }
+
+    if (mod == 0) {
+        return 2;
+    }
 
     for (size_t i = 0; i <= max_ord; i++) {
         q[i] = 0;
@@ -345,6 +353,7 @@ void poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[],
     }
 
     poly_mod(p, mod, max_ord);
+    return 0;
 }
 
 
