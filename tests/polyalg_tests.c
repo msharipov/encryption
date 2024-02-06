@@ -911,7 +911,6 @@ _Bool test_poly_GFdiv(void) {
             r3;
 
     r3 = poly_GFdiv(q3, a3, b3, 11, 6);
-
     if (r3 != expr3) {
         fail = 1;
         printf("Failed poly_GFdiv test 3:\n");
@@ -928,6 +927,34 @@ _Bool test_poly_GFdiv(void) {
         printf("Failed poly_GFdiv test 3.\n");
         printf("q: "), print_array(q3, 7);
         printf("expq: "), print_array(expq3, 7);
+    }
+
+    int64_t a4[7] = {0, 1, 2, 3, 4, 5, 6},
+            b4[7] = {5, -10, -25, 0, 10},
+            q4[7] = {0},
+            expa4[7] = {0, 1, 2, 3, 4, 5, 6},
+            expq4[7] = {0};
+
+    uint8_t expr4 = 1,
+            r4;
+
+    r4 = poly_GFdiv(q4, a4, b4, 5, 6);
+    if (r4 != expr4) {
+        fail = 1;
+        printf("Failed poly_GFdiv test 4:\n");
+        printf("Expected %x but got %x\n", expr4, r4);
+    }
+    if (!poly_GFsame(a4, expa4, 5, 6)) {
+        fail = 1;
+        printf("Failed poly_GFdiv test 4.\n");
+        printf("a: "), print_array(a4, 7);
+        printf("expa: "), print_array(expa4, 7);
+    }
+    if (!poly_GFsame(q4, expq4, 5, 6)) {
+        fail = 1;
+        printf("Failed poly_GFdiv test 4.\n");
+        printf("q: "), print_array(q4, 7);
+        printf("expq: "), print_array(expq4, 7);
     }
 
     return fail;
