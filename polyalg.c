@@ -317,11 +317,15 @@ void poly_GFrem(int64_t p[], const int64_t mod_p[], const int64_t mod,
 uint8_t poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[], 
                 const int64_t mod, const size_t max_ord) {
 
-    int64_t m_copy[max_ord + 1];
+    int64_t divisor[max_ord + 1],
+            div_copy[max_ord + 1];
     size_t p_ord = poly_order(p, max_ord),
-           m_ord = poly_order(mod_p, max_ord);\
+           m_ord;
 
-    if (m_ord == 0 && mod_p[0] == 0) {
+    poly_copy(divisor, mod_p, max_ord);
+    poly_mod(divisor, mod, max_ord);
+    m_ord = poly_order(divisor, max_ord);
+    if (m_ord == 0 && divisor[0] == 0) {
         return 1;
     }
 
@@ -336,18 +340,18 @@ uint8_t poly_GFdiv(int64_t q[], int64_t p[], const int64_t mod_p[],
     while (p_ord >= m_ord && p[p_ord]) {
 
         int64_t b = p[p_ord];
-        poly_copy(m_copy, mod_p, max_ord);
-        poly_add_ord(m_copy, p_ord - m_ord, max_ord);
+        poly_copy(div_copy, divisor, max_ord);
+        poly_add_ord(div_copy, p_ord - m_ord, max_ord);
 
-        // At this point, [p] and [m_copy] should have the same order.
+        // At this point, [p] and [div_copy] should have the same order.
 
-        b *= poly_mult_inv(poly_concl(poly_leadc(m_copy, max_ord), mod), mod);
+        b *= poly_mult_inv(poly_concl(poly_leadc(div_copy, max_ord), mod), mod);
         q[p_ord - m_ord] = poly_concl(b, mod);
 
-        // At this point, multiplying [m_copy] by [b] should make the leading
+        // At this point, multiplying [div_copy] by [b] should make the leading
         // coefficient the same as for [p].
 
-        poly_add_mult(p, m_copy, -b, max_ord);
+        poly_add_mult(p, div_copy, -b, max_ord);
         poly_mod(p, mod, max_ord);
         p_ord = poly_order(p, p_ord);
     }
