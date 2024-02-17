@@ -55,3 +55,6 @@ Mkfile.old
 dkms.conf
 
 **/.vscode
+
+# Particular executables
+encrypt
