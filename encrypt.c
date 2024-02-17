@@ -14,13 +14,17 @@
 void encrypt_print_usage(void) {
     printf("Usage: encrypt.exe [OPTIONS] INPUT_FILE\n"
            "Encrypts/decrypts files using DES.\n\n"
+           
            "Arguments:\n"
            "  -d, --decrypt              decrypts the input file instead of encrypting\n\n"
-           "  -K, --keep-original        retains the original file, which is\n"
-           "                               deleted by default; must specify the name\n"
-           "                               of the output file when this flag is set\n\n"
+
+           "  -r, --remove-original      removes the original file, which is retained\n"
+           "                             by default; it is not necessary specify the name\n"
+           "                             of the output file when this flag is set\n\n"
+
            "  -o, --output [FILENAME]    specifies the name of the output file; if the\n"
            "                               file already exists, it will be overwritten\n\n"
+
            "  -k, --key [KEY]            specifies the encryption key\n\n");
 }
 
@@ -30,7 +34,7 @@ void encrypt_print_error(void) {
 
 int main(int argc, char *argv[]) {
 
-    bool keep_original_flag = false,
+    bool keep_original_flag = true,
          out_filename_provided = false,
          key_provided = false,
          decrypt = false;
@@ -45,7 +49,7 @@ int main(int argc, char *argv[]) {
 
     static struct option long_options[] = {
         {"decrypt", no_argument, NULL, 'd'},
-        {"keep-original", no_argument, NULL, 'K'},
+        {"remove-original", no_argument, NULL, 'r'},
         {"output", required_argument, NULL, 'o'},
         {"key", required_argument, NULL, 'k'},
         {NULL, 0, NULL, 0}
@@ -53,7 +57,7 @@ int main(int argc, char *argv[]) {
     
     while (1) {
         int option_index = 0;
-        current_arg = getopt_long(argc, argv, "dKo:k:", 
+        current_arg = getopt_long(argc, argv, "dro:k:", 
                                   long_options, &option_index);
         
         if (current_arg == -1) {
@@ -65,8 +69,8 @@ int main(int argc, char *argv[]) {
                 decrypt = true;
                 break;
 
-            case 'K':
-                keep_original_flag = true;
+            case 'r':
+                keep_original_flag = false;
                 break;
 
             case 'o':
