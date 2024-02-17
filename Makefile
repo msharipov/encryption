@@ -1,5 +1,5 @@
 encrypt: encrypt.c DES.h
-	gcc -Wall -o encrypt.exe encrypt.c
+	gcc -Wall -o encrypt encrypt.c
 
 DES_tests: tests/DES_tests.c DES.h DES.c
 	gcc -g -Wall -o tests/DES tests/DES_tests.c
