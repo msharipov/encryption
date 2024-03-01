@@ -10,7 +10,7 @@ OBJ := $(filter-out $(OBJ_DIR)/$(EXE).o, $(OBJ))
 TESTS_SRC := $(wildcard $(TESTS_DIR)/*.c)
 TESTS := $(TESTS_SRC:$(TESTS_DIR)/%.c=$(TESTS_DIR)/%)
 
-CFLAGS := -Wall # -Wpedantic
+CFLAGS := -Wall -Wpedantic
 CPPFLAGS := -Iinclude -MMD -MP
 
 .PHONY: all clean tests run_tests
