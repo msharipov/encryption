@@ -50,14 +50,14 @@ static const uint8_t DES_S_BOXES[8][4][16] = {
 };
 
 static const uint64_t DES_EXPANSION_MASKS[8] = {
-    0b011111ULL << 27,
-    0b111111ULL << 23,
-    0b111111ULL << 19,
-    0b111111ULL << 15,
-    0b111111ULL << 11,
-    0b111111ULL << 7,
-    0b111111ULL << 3,
-    0b011111ULL,
+    0x1Full << 27,
+    0x3Full << 23,
+    0x3Full << 19,
+    0x3Full << 15,
+    0x3Full << 11,
+    0x3Full << 7,
+    0x3Full << 3,
+    0x1Full,
 };
 
 static const size_t DES_P_BOX[32] = {
@@ -120,7 +120,7 @@ uint64_t merge_8_to_64(uint8_t bytes[]){
 
 void split_64_to_8(uint8_t bytes[], uint64_t block){
     for (int i = 0; i < 8; i++) {
-        bytes[i] = block >> 8*(7 - i) & 0xffULL;
+        bytes[i] = block >> 8*(7 - i) & 0xFFull;
     }
 }
 
@@ -144,8 +144,8 @@ uint8_t DES_get_expanded_word(uint64_t plain, uint8_t n) {
 
 uint8_t DES_substitute(uint8_t word, uint8_t n) {
 
-    size_t row = (word & 1) + ((word & 0b100000) >> 4);
-    size_t col = (word & 0b011110) >> 1;
+    size_t row = (word & 1) + ((word & 0x20) >> 4);
+    size_t col = (word & 0x1E) >> 1;
 
     return DES_S_BOXES[n][row][col];
 }
@@ -160,7 +160,7 @@ uint64_t DES_permute(uint8_t words[]) {
         input += (uint64_t)words[i] << 4*(7 - i);
     }
 
-    const uint64_t ZEROTH_BIT = 1ULL << 31;
+    const uint64_t ZEROTH_BIT = 1ull << 31;
     // Permutes bits according to the P-box
     for (size_t out_pos = 0; out_pos < 32; out_pos++) {
         
@@ -178,8 +178,8 @@ uint64_t DES_permute_initial_key(uint64_t key64) {
     
     uint64_t key56 = 0;
 
-    const uint64_t ZEROTH_BIT_IN = 1ULL << 63,
-                   ZEROTH_BIT_OUT = 1ULL << 55;
+    const uint64_t ZEROTH_BIT_IN = 1ull << 63,
+                   ZEROTH_BIT_OUT = 1ull << 55;
     for (size_t out_pos = 0; out_pos < 56; out_pos++) {
         
         size_t in_pos = DES_KEY_PERM_1[out_pos];
@@ -196,8 +196,8 @@ uint64_t DES_key_contraction(uint64_t key56) {
     
     uint64_t round_key = 0;
 
-    const uint64_t ZEROTH_BIT_IN = 1ULL << 55,
-                   ZEROTH_BIT_OUT = 1ULL << 47;
+    const uint64_t ZEROTH_BIT_IN = 1ull << 55,
+                   ZEROTH_BIT_OUT = 1ull << 47;
     for (size_t out_pos = 0; out_pos < 48; out_pos++) {
         
         size_t in_pos = DES_KEY_PERM_2[out_pos];
@@ -212,10 +212,10 @@ uint64_t DES_key_contraction(uint64_t key56) {
 uint64_t DES_key_shift(uint64_t key56) {
 
     uint64_t output = 0;
-    const uint64_t PRE_SHIFT_MASK = 0x7ffffff7ffffffULL;
+    const uint64_t PRE_SHIFT_MASK = 0x7ffffff7ffffffull;
     output += (key56 & PRE_SHIFT_MASK) << 1;
-    output += (key56 & 1ULL << 27) ? 1ULL : 0;
-    output += (key56 & 1ULL << 55) ? (1ULL << 28) : 0;
+    output += (key56 & 1ull << 27) ? 1ull : 0;
+    output += (key56 & 1ull << 55) ? (1ull << 28) : 0;
 
     return output;
 }
@@ -249,7 +249,7 @@ uint64_t DES_Feistel(uint64_t RE, uint64_t round_key) {
 
 uint64_t DES_init_perm(uint64_t src) {
 
-    const uint64_t ZEROTH_BIT = 1ULL << 63;
+    const uint64_t ZEROTH_BIT = 1ull << 63;
     uint64_t permuted = 0;
     
     for (size_t out_pos = 0; out_pos < 64; out_pos++) {
@@ -264,7 +264,7 @@ uint64_t DES_init_perm(uint64_t src) {
 
 uint64_t DES_init_perm_inv(uint64_t src) {
 
-    const uint64_t ZEROTH_BIT = 1ULL << 63;
+    const uint64_t ZEROTH_BIT = 1ull << 63;
     uint64_t permuted = 0;
     
     for (size_t out_pos = 0; out_pos < 64; out_pos++) {
@@ -282,7 +282,7 @@ uint64_t DES_encrypt(uint64_t plain, uint64_t rnd_keys[]) {
 
     uint64_t cipher = 0,
              LE_old = permuted >> 32,
-             RE_old = permuted & 0xffffffffULL,
+             RE_old = permuted & 0xffffffffull,
              LE = 0,
              RE = 0;
 
@@ -305,7 +305,7 @@ uint64_t DES_decrypt(uint64_t cipher, uint64_t rnd_keys[]) {
 
     uint64_t plain = 0,
              LE_old = permuted >> 32,
-             RE_old = permuted & 0xffffffffULL,
+             RE_old = permuted & 0xFFFFFFFFull,
              LE = 0,
              RE = 0;
 
@@ -345,7 +345,7 @@ uint8_t DES_encrypt_file(FILE *input, FILE *output, uint64_t keys[]) {
 
     // Adds the padding bytes to the end of the file
     if (bytes_read == 0) {
-        split_64_to_8(buffer, DES_encrypt(0x0808080808080808ULL, keys));
+        split_64_to_8(buffer, DES_encrypt(0x0808080808080808ull, keys));
         size_t written = fwrite(buffer, sizeof(uint8_t), 8, output);
 
         if (written != 8) {
