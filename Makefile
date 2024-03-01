@@ -36,6 +36,7 @@ tests: $(TESTS)
 
 clean:
 	@$(RM) -rv $(OBJ_DIR)
+	@$(RM) -v $(TESTS_DIR)/*.d $(TESTS_DIR)/*.o $(TESTS)
 
 -include $(OBJ:.o=.d)
 -include $(TESTS_SRC:.c=.d)
