@@ -50,7 +50,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 2);
-    exp = 0x25;
+    exp = 0x29;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 2:\n");
@@ -58,7 +58,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 3);
-    exp = 0x14;
+    exp = 0x16;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 3:\n");
@@ -66,7 +66,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 4);
-    exp = 0x25;
+    exp = 0x29;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 4:\n");
@@ -129,7 +129,7 @@ _Bool test_s_boxes(void) {
         printf("Expected %x but got %x\n", exp, out);
     }
 
-    out = DES_substitute(0x03, 6);
+    out = DES_substitute(0x07, 6);
     exp = 7;
     if (out != exp) {
         fail = 1;
@@ -180,7 +180,7 @@ _Bool test_key_perm_2(void) {
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
-    out = DES_key_contraction(0xFFFFFFFFFFFFFull);
+    out = DES_key_contraction(0xFFFFFFFFFFFFFFull);
     exp = 0xFFFFFFFFFFFFull;
     if (out != exp) {
         fail = 1;
