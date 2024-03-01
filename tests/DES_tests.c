@@ -7,16 +7,16 @@ _Bool test_init_perm(void) {
     _Bool fail = 0;
     uint64_t out, exp;
 
-    out = DES_init_perm_inv(DES_init_perm(0x1234567890abcdefULL));
-    exp = 0x1234567890abcdefULL;
+    out = DES_init_perm_inv(DES_init_perm(0x1234567890ABCDEFull));
+    exp = 0x1234567890ABCDEFull;
     if (out != exp) {
         fail = 1;
         printf("Failed initial block permutation test 0:\n");
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
-    out = DES_init_perm(0x5555555555555555ULL);
-    exp = 0xffffffff00000000ULL;
+    out = DES_init_perm(0x5555555555555555ull);
+    exp = 0xFFFFFFFF00000000ull;
     if (out != exp) {
         fail = 1;
         printf("Failed initial block permutation test 1:\n");
@@ -29,15 +29,12 @@ _Bool test_init_perm(void) {
 _Bool test_expansion(void) {
 
     _Bool fail = 0;
-    const uint64_t NUMBER64 = 
-    //                                v32
-    //FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210FEDCBA9876543210
-    0b0100101101001011010010110100101101001011010010110100101101001011;
+    const uint64_t NUMBER64 = 0x4B4B4B4B4B4B4B4Bull;
 
     uint8_t out, exp;
 
     out = DES_get_expanded_word(NUMBER64, 0);
-    exp = 0b101001;
+    exp = 0x29;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 0:\n");
@@ -45,7 +42,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 1);
-    exp = 0b010110;
+    exp = 0x16;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 1:\n");
@@ -53,7 +50,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 2);
-    exp = 0b101001;
+    exp = 0x25;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 2:\n");
@@ -61,7 +58,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 3);
-    exp = 0b010110;
+    exp = 0x14;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 3:\n");
@@ -69,7 +66,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 4);
-    exp = 0b101001;
+    exp = 0x25;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 4:\n");
@@ -77,7 +74,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 5);
-    exp = 0b010110;
+    exp = 0x16;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 5:\n");
@@ -85,7 +82,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 6);
-    exp = 0b101001;
+    exp = 0x29;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 6:\n");
@@ -93,7 +90,7 @@ _Bool test_expansion(void) {
     }
 
     out = DES_get_expanded_word(NUMBER64, 7);
-    exp = 0b010110;
+    exp = 0x16;
     if (out != exp) {
         fail = 1;
         printf("Failed expansion test 7:\n");
@@ -108,7 +105,7 @@ _Bool test_s_boxes(void) {
     _Bool fail = 0;
     uint8_t out, exp;
 
-    out = DES_substitute(0b000000, 0);
+    out = DES_substitute(0x00, 0);
     exp = 14;
     if (out != exp) {
         fail = 1;
@@ -116,7 +113,7 @@ _Bool test_s_boxes(void) {
         printf("Expected %x but got %x\n", exp, out);
     }
 
-    out = DES_substitute(0b101010, 3);
+    out = DES_substitute(0x2A, 3);
     exp = 11;
     if (out != exp) {
         fail = 1;
@@ -124,7 +121,7 @@ _Bool test_s_boxes(void) {
         printf("Expected %x but got %x\n", exp, out);
     }
 
-    out = DES_substitute(0b111111, 2);
+    out = DES_substitute(0x3F, 2);
     exp = 12;
     if (out != exp) {
         fail = 1;
@@ -132,7 +129,7 @@ _Bool test_s_boxes(void) {
         printf("Expected %x but got %x\n", exp, out);
     }
 
-    out = DES_substitute(0b000111, 6);
+    out = DES_substitute(0x03, 6);
     exp = 7;
     if (out != exp) {
         fail = 1;
@@ -146,9 +143,9 @@ _Bool test_s_boxes(void) {
 _Bool test_p_box(void) {
 
     _Bool fail = 0;
-    uint8_t words[] = {0xa, 0xa, 0xa, 0xa, 0xa, 0xa, 0xa, 0xa};
+    uint8_t words[] = {0xA, 0xA, 0xA, 0xA, 0xA, 0xA, 0xA, 0xA};
     uint64_t out = DES_permute(words),
-             exp = 0b01011001111010100000011111000101;
+             exp = 0x59EA07C5ul;
     if (out != exp) {
         fail = 1;
         printf("Failed P-box test:\n");
@@ -161,8 +158,8 @@ _Bool test_p_box(void) {
 _Bool test_key_perm_1(void) {
 
     _Bool fail = 0;
-    uint64_t out = DES_permute_initial_key(0x5555555555555555ULL),
-             exp = 0x00ff00f00ff00fULL;
+    uint64_t out = DES_permute_initial_key(0x5555555555555555ull),
+             exp = 0x00FF00F00FF00Full;
     if (out != exp) {
         fail = 1;
         printf("Failed initial key permutation test:\n");
@@ -175,16 +172,16 @@ _Bool test_key_perm_1(void) {
 _Bool test_key_perm_2(void) {
 
     _Bool fail = 0;
-    uint64_t out = DES_key_contraction(0x55555555555555ULL),
-             exp = 0x9153e54319bdULL;
+    uint64_t out = DES_key_contraction(0x55555555555555ull),
+             exp = 0x9153E54319BDull;
     if (out != exp) {
         fail = 1;
         printf("Failed key contraction test 0:\n");
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
-    out = DES_key_contraction(0xffffffffffffffULL);
-    exp = 0xffffffffffffULL;
+    out = DES_key_contraction(0xFFFFFFFFFFFFFull);
+    exp = 0xFFFFFFFFFFFFull;
     if (out != exp) {
         fail = 1;
         printf("Failed key contraction test 1:\n");
@@ -205,8 +202,8 @@ _Bool test_key_perm_2(void) {
 _Bool test_key_shift(void) {
 
     _Bool fail = 0;
-    uint64_t out = DES_key_shift(0x55555555555555ULL),
-             exp = 0xaaaaaaaaaaaaaaULL;
+    uint64_t out = DES_key_shift(0x55555555555555ull),
+             exp = 0xAAAAAAAAAAAAAAull;
     if (out != exp) {
         fail = 1;
         printf("Failed key shift test:\n");
@@ -221,25 +218,25 @@ _Bool test_key_generation(void) {
     _Bool fail = 0;
     uint64_t out[16] = {0},
              exp[16] = {
-                0b101100001001001011001010110101010000001001010100ULL,
-                0b101100000001101011010010110100011000001001010100ULL,
-                0b001101000111101001010000010100011010011010001100ULL,
-                0b000001100111010101010100001110000011010010001101ULL,
-                0b010011100100010101010101001010100111000010100111ULL,
-                0b010011111100000100101001001001100110100110100011ULL,
-                0b100010111000000110101011101001100000100101010011ULL,
-                0b101110010000101010001011110001111000001101010010ULL,
-                0b001110010001101010001010110001011000001101001010ULL,
-                0b001100000011100011001100010101001001011001001100ULL,
-                0b000100000110110001010100010110001001010011101100ULL,
-                0b010001000110110100110100000010001111110010101001ULL,
-                0b110001101010010100100101001010100111110000110001ULL,
-                0b110010111000011000100011101010110100100100110010ULL,
-                0b111010011001001010101010100001010100101100010010ULL,
-                0b101000011001001010101010100101010000101101010000ULL
+                0xB092CAD50254ull,
+                0xB01AD2D18254ull,
+                0x347A5051A68Cull,
+                0x06755438348Dull,
+                0x4E45552A70A7ull,
+                0x4FC1292669A3ull,
+                0x8B81ABA60953ull,
+                0xB90A8BC78352ull,
+                0x391A8AC5834Aull,
+                0x3038CC54964Cull,
+                0x106C545894ECull,
+                0x446D3408FCA9ull,
+                0xC6A5252A7C31ull,
+                0xCB8623AB4932ull,
+                0xE992AA854B12ull,
+                0xA192AA950B50ull
              };
 
-    DES_generate_round_keys(out, 0x5555555555555555ULL);
+    DES_generate_round_keys(out, 0x5555555555555555ull);
 
     for (int r = 0; r < 15; r++) {
         if (out[r] != exp[r]) {
@@ -256,7 +253,7 @@ _Bool test_encrypt(void) {
     _Bool fail = 0;
     uint64_t round_keys[16] = {0};
     uint64_t out, exp;
-    const uint64_t SAMPLE = 0xfedcba0987654321ULL;
+    const uint64_t SAMPLE = 0xFEDCBA0987654321ull;
 
     out = DES_decrypt(DES_encrypt(0, round_keys), round_keys),
     exp = 0;
@@ -266,7 +263,7 @@ _Bool test_encrypt(void) {
         printf("Expected %lx but got %lx\n", exp, out);
     }
 
-    DES_generate_round_keys(round_keys, 0x1234ULL);
+    DES_generate_round_keys(round_keys, 0x1234ull);
     out = DES_decrypt(DES_encrypt(SAMPLE, round_keys), round_keys),
     exp = SAMPLE;
     if (out != exp) {

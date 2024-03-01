@@ -64,8 +64,8 @@ _Bool test_GF28_mult(void) {
         printf("Expected %x but got %x\n", exp, out);
     }
 
-    out = GF28_mult(0b10011001U, 0b01010110U);
-    exp = 0b01111111;
+    out = GF28_mult(0x99U, 0x56U);
+    exp = 0x7F;
     if (out != exp) {
         fail = 1;
         printf("Failed multiplication in GF(2^8) test 5:\n");
