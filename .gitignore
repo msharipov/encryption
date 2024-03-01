@@ -58,3 +58,6 @@ dkms.conf
 
 # Particular executables
 encrypt
+
+# clangd LSP for neovim
+compile_flags.txt

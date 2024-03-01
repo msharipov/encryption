@@ -1,38 +1,41 @@
 SRC_DIR := src
 OBJ_DIR := obj
-BIN_DIR := .
-EXE := $(BIN_DIR)/encrypt
+TESTS_DIR := tests
+EXE := encrypt
 
 SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-CFLAGS := -Wall -Wpedantic
+OBJ := $(filter-out $(OBJ_DIR)/$(EXE).o, $(OBJ))
+
+TESTS_SRC := $(wildcard $(TESTS_DIR)/*.c)
+TESTS := $(TESTS_SRC:$(TESTS_DIR)/%.c=$(TESTS_DIR)/%)
+
+CFLAGS := -Wall # -Wpedantic
 CPPFLAGS := -Iinclude -MMD -MP
 
-.PHONY: all clean
+.PHONY: all clean tests run_tests
 
 all: $(EXE)
 
-$(BIN_DIR):
-	mkdir -p $@
-
-$(EXE): $(OBJ) | $(BIN_DIR)
+$(EXE): $(OBJ) $(OBJ_DIR)/$(EXE).o
 	$(CC) $^ -O2 -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-$(BIN_DIR) $(OBJ_DIR):
+$(OBJ_DIR):
 	mkdir -p $@
 
+$(TESTS_DIR)/%.o: $(TESTS_DIR)/%.c
+	$(CC) -g $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+$(TESTS_DIR)/%: $(OBJ) $(TESTS_DIR)/%.o
+	$(CC) $(filter-out $(OBJ_DIR)/$(EXE).o, $^) -o $@
+
+tests: $(TESTS)
+
 clean:
-	@$(RM) -rv $(BIN_DIR) $(OBJ_DIR)
+	@$(RM) -rv $(OBJ_DIR)
 
 -include $(OBJ:.o=.d)
-
-DES_tests: tests/DES_tests.c DES.h DES.c
-	gcc -g $(CFLAGS) -o tests/DES tests/DES_tests.c
-
-polyalg_tests: tests/polyalg_tests.c polyalg.h polyalg.c
-	gcc -g $(CFLAGS) -o tests/polyalg tests/polyalg_tests.c
-
-tests: DES_tests polyalg_tests
+-include $(TESTS_SRC:.c=.d)

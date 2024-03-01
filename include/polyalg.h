@@ -2,7 +2,8 @@
 #define POLYALG_H
 
 #include <stdint.h>
-#include "polyalg.c"
+#include <stdlib.h>
+#include <stdbool.h>
 
 // Multiplies two polynomials in GF(2^8)
 // Returns the product as a byte where MSB is the coefficient of x^7

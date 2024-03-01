@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "../polyalg.h"
+#include <polyalg.h>
+#include <stdbool.h>
 
 void print_array(int64_t a[], size_t n) {
 
