@@ -1,7 +1,9 @@
 #ifndef encrypt_DES_h
 #define encrypt_DES_h
 
-#include "DES.c"
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
 
 // Turns an array of eight bytes into an uint64_t
 uint64_t merge_8_to_64(uint8_t bytes[]);
