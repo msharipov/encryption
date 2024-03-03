@@ -255,8 +255,8 @@ _Bool test_encrypt(void) {
     uint64_t out, exp;
     const uint64_t SAMPLE = 0xFEDCBA0987654321ull;
 
-    out = DES_decrypt(DES_encrypt(0, round_keys), round_keys),
-    exp = 0;
+    out = DES_decrypt(DES_encrypt(26, round_keys), round_keys),
+    exp = 26;
     if (out != exp) {
         fail = 1;
         printf("Failed encryption/decryption test 0:\n");
