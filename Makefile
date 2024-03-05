@@ -34,6 +34,12 @@ $(TESTS_DIR)/%: $(OBJ) $(TESTS_DIR)/%.o
 
 tests: $(TESTS)
 
+run_tests: $(TESTS)
+	@for file in $^ ; do \
+		echo "$${file}:" ; \
+		./$${file} ; \
+	done
+
 clean:
 	@$(RM) -rv $(OBJ_DIR)
 	@$(RM) -v $(TESTS_DIR)/*.d $(TESTS_DIR)/*.o $(TESTS)
